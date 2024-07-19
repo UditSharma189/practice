@@ -1,0 +1,25 @@
+.container{
+    margin: auto;
+    width: 50%;
+    background-color: chartreuse;
+    border: 1px solid gray;
+    padding: 5%;
+}
+
+.joke {
+    /* background-color: brown; */
+    margin: auto;
+    width: 10%;
+    padding-bottom: 2%;
+}
+
+.button {
+    width: 100%;
+    background-color: crimson;
+    margin-top: 10%;
+}
+
+.loading {
+    margin: auto;
+    width: 10%;
+}

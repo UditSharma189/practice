@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)https://bigfrontend.dev/react/usetimeout -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width"><title>2. useTimeout() | BFE.dev - prepare for Front-End job interviews.</title><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@BFEdev"><meta name="twitter:creator" content="@BFEdev"><meta property="og:url" content="https://bigfrontend.dev/react/usetimeout"><meta property="og:title" content="2. useTimeout() | BFE.dev - prepare for Front-End job interviews."><meta property="og:description" content="Create a hook to easily use setTimeout(callback, delay). 1. reset the timer if delay changes 2. DO NOT reset the timer if only callback changes…"><meta property="og:image" content="https://cdn.bfe.dev/bfe/ogpgen/gqDx7hCdQzuRjO4QdUVyDsaOhPJb3B7R_1200x627_1671419923911.png"><link rel="alternate" hreflang="ja" href="https://bigfrontend.dev/ja/react/usetimeout"><link rel="alternate" hreflang="zh" href="https://bigfrontend.dev/zh/react/usetimeout"><link rel="alternate" hreflang="en" href="https://bigfrontend.dev/react/usetimeout"><script type="application/ld+json">
+            [{
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://bigfrontend.dev/"
+              },{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "React Coding Questions",
+                "item": "https://bigfrontend.dev/react"
+              },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "2. useTimeout()"
+              }]
+            }]
+            </script><meta name="viewport" content="width=device-width"><meta name="next-head-count" content="14"><link rel="preload" href="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/a3342c6736ac3acc.css" as="style"><link rel="stylesheet" href="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/a3342c6736ac3acc.css" data-n-g=""><noscript data-n-css=""></noscript><script defer="" nomodule="" src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/polyfills-c67a75d1b6f99dc8.js.download"></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/webpack-efd51a93baf8f645.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/framework-2ff63dc0032ac97d.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/main-2b4c510f621ab145.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/_app-05a24d541778f56c.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/cb355538-db152e9f1fd04c98.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/6eb5140f-f9a281104b624e66.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/646e0218-36eaaec89cbfe87c.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/2777-7e19514f2535742e.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/4252-66639c4e39f6d2f3.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/3453-8668add34793a79a.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/4686-e7f33b370c7b677f.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/5165-8feef075904ccc46.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/2002-d45acd28707591f4.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/7758-123f2fdeb0d5bf1a.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/6504-fbd3e153899984ca.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/[permalink]-7f26cee638b8977d.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/_buildManifest.js.download" defer=""></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/_ssgManifest.js.download" defer=""></script><style data-styled="active" data-styled-version="5.3.11"></style><link rel="icon" type="image/png" href="https://bigfrontend.dev/static/img/logo@192x192.png" sizes="192x192"><script>
+            
+            // GDPR compliance
+            try {
+              var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+              if (['Europe/Vienna','Europe/London', 'Europe/Brussels','Europe/Sofia', 'Europe/Zagreb',
+                'Asia/Famagusta', 'Asia/Nicosia','Europe/Prague','Europe/Copenhagen',
+                'Europe/Tallinn','Europe/Helsinki','Europe/Paris','Europe/Berlin', 'Europe/Busingen',
+              'Europe/Athens', 'Europe/Budapest','Europe/Dublin','Europe/Rome','Europe/Riga',
+              'Europe/Vilnius', 'Europe/Luxembourg', 'Europe/Malta', 'Europe/Amsterdam',
+              'Europe/Warsaw', 'Atlantic/Azores', 'Atlantic/Madeira', 'Europe/Lisbon', 'Europe/Bucharest',
+            'Europe/Bratislava', 'Europe/Ljubljana', 'Africa/Ceuta', 'Atlantic/Canary', 'Europe/Madrid',
+          'Europe/Stockholm'].indexOf(tz) > -1) {
+            window['ga-disable-UA-173013365-1'] = true;
+            }
+            } catch (e) {}
+            
+            
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M8TK4BS');</script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/monetization.js.download" type="text/javascript"></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/loader.js.download"></script><script>
+            require.config({ paths: { vs: '/static/monaco-editor/min/vs' } });
+            </script><script async="async" type="text/javascript" src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/editor.main.js.download"></script><link as="script" rel="prefetch" href="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/index-470e71605f16a319.js.download"><link as="script" rel="prefetch" href="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/b55cbb4c-8052c5a34455d4d0.js.download"><link as="script" rel="prefetch" href="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/7062-20ec4f4ca82ef5d0.js.download"><link as="script" rel="prefetch" href="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/react-a979f55e635d6ea6.js.download"><link rel="stylesheet" type="text/css" data-name="vs/editor/editor.main" href="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/editor.main.css"><script async="async" type="text/javascript" src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/editor.main.nls.js.download"></script><style type="text/css" media="screen" class="monaco-colors">.codicon-add:before { content: '\ea60'; }
+.codicon-plus:before { content: '\ea60'; }
+.codicon-gist-new:before { content: '\ea60'; }
+.codicon-repo-create:before { content: '\ea60'; }
+.codicon-lightbulb:before { content: '\ea61'; }
+.codicon-light-bulb:before { content: '\ea61'; }
+.codicon-repo:before { content: '\ea62'; }
+.codicon-repo-delete:before { content: '\ea62'; }
+.codicon-gist-fork:before { content: '\ea63'; }
+.codicon-repo-forked:before { content: '\ea63'; }
+.codicon-git-pull-request:before { content: '\ea64'; }
+.codicon-git-pull-request-abandoned:before { content: '\ea64'; }
+.codicon-record-keys:before { content: '\ea65'; }
+.codicon-keyboard:before { content: '\ea65'; }
+.codicon-tag:before { content: '\ea66'; }
+.codicon-tag-add:before { content: '\ea66'; }
+.codicon-tag-remove:before { content: '\ea66'; }
+.codicon-person:before { content: '\ea67'; }
+.codicon-person-follow:before { content: '\ea67'; }
+.codicon-person-outline:before { content: '\ea67'; }
+.codicon-person-filled:before { content: '\ea67'; }
+.codicon-git-branch:before { content: '\ea68'; }
+.codicon-git-branch-create:before { content: '\ea68'; }
+.codicon-git-branch-delete:before { content: '\ea68'; }
+.codicon-source-control:before { content: '\ea68'; }
+.codicon-mirror:before { content: '\ea69'; }
+.codicon-mirror-public:before { content: '\ea69'; }
+.codicon-star:before { content: '\ea6a'; }
+.codicon-star-add:before { content: '\ea6a'; }
+.codicon-star-delete:before { content: '\ea6a'; }
+.codicon-star-empty:before { content: '\ea6a'; }
+.codicon-comment:before { content: '\ea6b'; }
+.codicon-comment-add:before { content: '\ea6b'; }
+.codicon-alert:before { content: '\ea6c'; }
+.codicon-warning:before { content: '\ea6c'; }
+.codicon-search:before { content: '\ea6d'; }
+.codicon-search-save:before { content: '\ea6d'; }
+.codicon-log-out:before { content: '\ea6e'; }
+.codicon-sign-out:before { content: '\ea6e'; }
+.codicon-log-in:before { content: '\ea6f'; }
+.codicon-sign-in:before { content: '\ea6f'; }
+.codicon-eye:before { content: '\ea70'; }
+.codicon-eye-unwatch:before { content: '\ea70'; }
+.codicon-eye-watch:before { content: '\ea70'; }
+.codicon-circle-filled:before { content: '\ea71'; }
+.codicon-primitive-dot:before { content: '\ea71'; }
+.codicon-close-dirty:before { content: '\ea71'; }
+.codicon-debug-breakpoint:before { content: '\ea71'; }
+.codicon-debug-breakpoint-disabled:before { content: '\ea71'; }
+.codicon-debug-hint:before { content: '\ea71'; }
+.codicon-primitive-square:before { content: '\ea72'; }
+.codicon-edit:before { content: '\ea73'; }
+.codicon-pencil:before { content: '\ea73'; }
+.codicon-info:before { content: '\ea74'; }
+.codicon-issue-opened:before { content: '\ea74'; }
+.codicon-gist-private:before { content: '\ea75'; }
+.codicon-git-fork-private:before { content: '\ea75'; }
+.codicon-lock:before { content: '\ea75'; }
+.codicon-mirror-private:before { content: '\ea75'; }
+.codicon-close:before { content: '\ea76'; }
+.codicon-remove-close:before { content: '\ea76'; }
+.codicon-x:before { content: '\ea76'; }
+.codicon-repo-sync:before { content: '\ea77'; }
+.codicon-sync:before { content: '\ea77'; }
+.codicon-clone:before { content: '\ea78'; }
+.codicon-desktop-download:before { content: '\ea78'; }
+.codicon-beaker:before { content: '\ea79'; }
+.codicon-microscope:before { content: '\ea79'; }
+.codicon-vm:before { content: '\ea7a'; }
+.codicon-device-desktop:before { content: '\ea7a'; }
+.codicon-file:before { content: '\ea7b'; }
+.codicon-file-text:before { content: '\ea7b'; }
+.codicon-more:before { content: '\ea7c'; }
+.codicon-ellipsis:before { content: '\ea7c'; }
+.codicon-kebab-horizontal:before { content: '\ea7c'; }
+.codicon-mail-reply:before { content: '\ea7d'; }
+.codicon-reply:before { content: '\ea7d'; }
+.codicon-organization:before { content: '\ea7e'; }
+.codicon-organization-filled:before { content: '\ea7e'; }
+.codicon-organization-outline:before { content: '\ea7e'; }
+.codicon-new-file:before { content: '\ea7f'; }
+.codicon-file-add:before { content: '\ea7f'; }
+.codicon-new-folder:before { content: '\ea80'; }
+.codicon-file-directory-create:before { content: '\ea80'; }
+.codicon-trash:before { content: '\ea81'; }
+.codicon-trashcan:before { content: '\ea81'; }
+.codicon-history:before { content: '\ea82'; }
+.codicon-clock:before { content: '\ea82'; }
+.codicon-folder:before { content: '\ea83'; }
+.codicon-file-directory:before { content: '\ea83'; }
+.codicon-symbol-folder:before { content: '\ea83'; }
+.codicon-logo-github:before { content: '\ea84'; }
+.codicon-mark-github:before { content: '\ea84'; }
+.codicon-github:before { content: '\ea84'; }
+.codicon-terminal:before { content: '\ea85'; }
+.codicon-console:before { content: '\ea85'; }
+.codicon-repl:before { content: '\ea85'; }
+.codicon-zap:before { content: '\ea86'; }
+.codicon-symbol-event:before { content: '\ea86'; }
+.codicon-error:before { content: '\ea87'; }
+.codicon-stop:before { content: '\ea87'; }
+.codicon-variable:before { content: '\ea88'; }
+.codicon-symbol-variable:before { content: '\ea88'; }
+.codicon-array:before { content: '\ea8a'; }
+.codicon-symbol-array:before { content: '\ea8a'; }
+.codicon-symbol-module:before { content: '\ea8b'; }
+.codicon-symbol-package:before { content: '\ea8b'; }
+.codicon-symbol-namespace:before { content: '\ea8b'; }
+.codicon-symbol-object:before { content: '\ea8b'; }
+.codicon-symbol-method:before { content: '\ea8c'; }
+.codicon-symbol-function:before { content: '\ea8c'; }
+.codicon-symbol-constructor:before { content: '\ea8c'; }
+.codicon-symbol-boolean:before { content: '\ea8f'; }
+.codicon-symbol-null:before { content: '\ea8f'; }
+.codicon-symbol-numeric:before { content: '\ea90'; }
+.codicon-symbol-number:before { content: '\ea90'; }
+.codicon-symbol-structure:before { content: '\ea91'; }
+.codicon-symbol-struct:before { content: '\ea91'; }
+.codicon-symbol-parameter:before { content: '\ea92'; }
+.codicon-symbol-type-parameter:before { content: '\ea92'; }
+.codicon-symbol-key:before { content: '\ea93'; }
+.codicon-symbol-text:before { content: '\ea93'; }
+.codicon-symbol-reference:before { content: '\ea94'; }
+.codicon-go-to-file:before { content: '\ea94'; }
+.codicon-symbol-enum:before { content: '\ea95'; }
+.codicon-symbol-value:before { content: '\ea95'; }
+.codicon-symbol-ruler:before { content: '\ea96'; }
+.codicon-symbol-unit:before { content: '\ea96'; }
+.codicon-activate-breakpoints:before { content: '\ea97'; }
+.codicon-archive:before { content: '\ea98'; }
+.codicon-arrow-both:before { content: '\ea99'; }
+.codicon-arrow-down:before { content: '\ea9a'; }
+.codicon-arrow-left:before { content: '\ea9b'; }
+.codicon-arrow-right:before { content: '\ea9c'; }
+.codicon-arrow-small-down:before { content: '\ea9d'; }
+.codicon-arrow-small-left:before { content: '\ea9e'; }
+.codicon-arrow-small-right:before { content: '\ea9f'; }
+.codicon-arrow-small-up:before { content: '\eaa0'; }
+.codicon-arrow-up:before { content: '\eaa1'; }
+.codicon-bell:before { content: '\eaa2'; }
+.codicon-bold:before { content: '\eaa3'; }
+.codicon-book:before { content: '\eaa4'; }
+.codicon-bookmark:before { content: '\eaa5'; }
+.codicon-debug-breakpoint-conditional-unverified:before { content: '\eaa6'; }
+.codicon-debug-breakpoint-conditional:before { content: '\eaa7'; }
+.codicon-debug-breakpoint-conditional-disabled:before { content: '\eaa7'; }
+.codicon-debug-breakpoint-data-unverified:before { content: '\eaa8'; }
+.codicon-debug-breakpoint-data:before { content: '\eaa9'; }
+.codicon-debug-breakpoint-data-disabled:before { content: '\eaa9'; }
+.codicon-debug-breakpoint-log-unverified:before { content: '\eaaa'; }
+.codicon-debug-breakpoint-log:before { content: '\eaab'; }
+.codicon-debug-breakpoint-log-disabled:before { content: '\eaab'; }
+.codicon-briefcase:before { content: '\eaac'; }
+.codicon-broadcast:before { content: '\eaad'; }
+.codicon-browser:before { content: '\eaae'; }
+.codicon-bug:before { content: '\eaaf'; }
+.codicon-calendar:before { content: '\eab0'; }
+.codicon-case-sensitive:before { content: '\eab1'; }
+.codicon-check:before { content: '\eab2'; }
+.codicon-checklist:before { content: '\eab3'; }
+.codicon-chevron-down:before { content: '\eab4'; }
+.codicon-drop-down-button:before { content: '\eab4'; }
+.codicon-chevron-left:before { content: '\eab5'; }
+.codicon-chevron-right:before { content: '\eab6'; }
+.codicon-chevron-up:before { content: '\eab7'; }
+.codicon-chrome-close:before { content: '\eab8'; }
+.codicon-chrome-maximize:before { content: '\eab9'; }
+.codicon-chrome-minimize:before { content: '\eaba'; }
+.codicon-chrome-restore:before { content: '\eabb'; }
+.codicon-circle-outline:before { content: '\eabc'; }
+.codicon-debug-breakpoint-unverified:before { content: '\eabc'; }
+.codicon-circle-slash:before { content: '\eabd'; }
+.codicon-circuit-board:before { content: '\eabe'; }
+.codicon-clear-all:before { content: '\eabf'; }
+.codicon-clippy:before { content: '\eac0'; }
+.codicon-close-all:before { content: '\eac1'; }
+.codicon-cloud-download:before { content: '\eac2'; }
+.codicon-cloud-upload:before { content: '\eac3'; }
+.codicon-code:before { content: '\eac4'; }
+.codicon-collapse-all:before { content: '\eac5'; }
+.codicon-color-mode:before { content: '\eac6'; }
+.codicon-comment-discussion:before { content: '\eac7'; }
+.codicon-compare-changes:before { content: '\eafd'; }
+.codicon-credit-card:before { content: '\eac9'; }
+.codicon-dash:before { content: '\eacc'; }
+.codicon-dashboard:before { content: '\eacd'; }
+.codicon-database:before { content: '\eace'; }
+.codicon-debug-continue:before { content: '\eacf'; }
+.codicon-debug-disconnect:before { content: '\ead0'; }
+.codicon-debug-pause:before { content: '\ead1'; }
+.codicon-debug-restart:before { content: '\ead2'; }
+.codicon-debug-start:before { content: '\ead3'; }
+.codicon-debug-step-into:before { content: '\ead4'; }
+.codicon-debug-step-out:before { content: '\ead5'; }
+.codicon-debug-step-over:before { content: '\ead6'; }
+.codicon-debug-stop:before { content: '\ead7'; }
+.codicon-debug:before { content: '\ead8'; }
+.codicon-device-camera-video:before { content: '\ead9'; }
+.codicon-device-camera:before { content: '\eada'; }
+.codicon-device-mobile:before { content: '\eadb'; }
+.codicon-diff-added:before { content: '\eadc'; }
+.codicon-diff-ignored:before { content: '\eadd'; }
+.codicon-diff-modified:before { content: '\eade'; }
+.codicon-diff-removed:before { content: '\eadf'; }
+.codicon-diff-renamed:before { content: '\eae0'; }
+.codicon-diff:before { content: '\eae1'; }
+.codicon-discard:before { content: '\eae2'; }
+.codicon-editor-layout:before { content: '\eae3'; }
+.codicon-empty-window:before { content: '\eae4'; }
+.codicon-exclude:before { content: '\eae5'; }
+.codicon-extensions:before { content: '\eae6'; }
+.codicon-eye-closed:before { content: '\eae7'; }
+.codicon-file-binary:before { content: '\eae8'; }
+.codicon-file-code:before { content: '\eae9'; }
+.codicon-file-media:before { content: '\eaea'; }
+.codicon-file-pdf:before { content: '\eaeb'; }
+.codicon-file-submodule:before { content: '\eaec'; }
+.codicon-file-symlink-directory:before { content: '\eaed'; }
+.codicon-file-symlink-file:before { content: '\eaee'; }
+.codicon-file-zip:before { content: '\eaef'; }
+.codicon-files:before { content: '\eaf0'; }
+.codicon-filter:before { content: '\eaf1'; }
+.codicon-flame:before { content: '\eaf2'; }
+.codicon-fold-down:before { content: '\eaf3'; }
+.codicon-fold-up:before { content: '\eaf4'; }
+.codicon-fold:before { content: '\eaf5'; }
+.codicon-folder-active:before { content: '\eaf6'; }
+.codicon-folder-opened:before { content: '\eaf7'; }
+.codicon-gear:before { content: '\eaf8'; }
+.codicon-gift:before { content: '\eaf9'; }
+.codicon-gist-secret:before { content: '\eafa'; }
+.codicon-gist:before { content: '\eafb'; }
+.codicon-git-commit:before { content: '\eafc'; }
+.codicon-git-compare:before { content: '\eafd'; }
+.codicon-git-merge:before { content: '\eafe'; }
+.codicon-github-action:before { content: '\eaff'; }
+.codicon-github-alt:before { content: '\eb00'; }
+.codicon-globe:before { content: '\eb01'; }
+.codicon-grabber:before { content: '\eb02'; }
+.codicon-graph:before { content: '\eb03'; }
+.codicon-gripper:before { content: '\eb04'; }
+.codicon-heart:before { content: '\eb05'; }
+.codicon-home:before { content: '\eb06'; }
+.codicon-horizontal-rule:before { content: '\eb07'; }
+.codicon-hubot:before { content: '\eb08'; }
+.codicon-inbox:before { content: '\eb09'; }
+.codicon-issue-closed:before { content: '\eba4'; }
+.codicon-issue-reopened:before { content: '\eb0b'; }
+.codicon-issues:before { content: '\eb0c'; }
+.codicon-italic:before { content: '\eb0d'; }
+.codicon-jersey:before { content: '\eb0e'; }
+.codicon-json:before { content: '\eb0f'; }
+.codicon-kebab-vertical:before { content: '\eb10'; }
+.codicon-key:before { content: '\eb11'; }
+.codicon-law:before { content: '\eb12'; }
+.codicon-lightbulb-autofix:before { content: '\eb13'; }
+.codicon-link-external:before { content: '\eb14'; }
+.codicon-link:before { content: '\eb15'; }
+.codicon-list-ordered:before { content: '\eb16'; }
+.codicon-list-unordered:before { content: '\eb17'; }
+.codicon-live-share:before { content: '\eb18'; }
+.codicon-loading:before { content: '\eb19'; }
+.codicon-location:before { content: '\eb1a'; }
+.codicon-mail-read:before { content: '\eb1b'; }
+.codicon-mail:before { content: '\eb1c'; }
+.codicon-markdown:before { content: '\eb1d'; }
+.codicon-megaphone:before { content: '\eb1e'; }
+.codicon-mention:before { content: '\eb1f'; }
+.codicon-milestone:before { content: '\eb20'; }
+.codicon-mortar-board:before { content: '\eb21'; }
+.codicon-move:before { content: '\eb22'; }
+.codicon-multiple-windows:before { content: '\eb23'; }
+.codicon-mute:before { content: '\eb24'; }
+.codicon-no-newline:before { content: '\eb25'; }
+.codicon-note:before { content: '\eb26'; }
+.codicon-octoface:before { content: '\eb27'; }
+.codicon-open-preview:before { content: '\eb28'; }
+.codicon-package:before { content: '\eb29'; }
+.codicon-paintcan:before { content: '\eb2a'; }
+.codicon-pin:before { content: '\eb2b'; }
+.codicon-play:before { content: '\eb2c'; }
+.codicon-run:before { content: '\eb2c'; }
+.codicon-plug:before { content: '\eb2d'; }
+.codicon-preserve-case:before { content: '\eb2e'; }
+.codicon-preview:before { content: '\eb2f'; }
+.codicon-project:before { content: '\eb30'; }
+.codicon-pulse:before { content: '\eb31'; }
+.codicon-question:before { content: '\eb32'; }
+.codicon-quote:before { content: '\eb33'; }
+.codicon-radio-tower:before { content: '\eb34'; }
+.codicon-reactions:before { content: '\eb35'; }
+.codicon-references:before { content: '\eb36'; }
+.codicon-refresh:before { content: '\eb37'; }
+.codicon-regex:before { content: '\eb38'; }
+.codicon-remote-explorer:before { content: '\eb39'; }
+.codicon-remote:before { content: '\eb3a'; }
+.codicon-remove:before { content: '\eb3b'; }
+.codicon-replace-all:before { content: '\eb3c'; }
+.codicon-replace:before { content: '\eb3d'; }
+.codicon-repo-clone:before { content: '\eb3e'; }
+.codicon-repo-force-push:before { content: '\eb3f'; }
+.codicon-repo-pull:before { content: '\eb40'; }
+.codicon-repo-push:before { content: '\eb41'; }
+.codicon-report:before { content: '\eb42'; }
+.codicon-request-changes:before { content: '\eb43'; }
+.codicon-rocket:before { content: '\eb44'; }
+.codicon-root-folder-opened:before { content: '\eb45'; }
+.codicon-root-folder:before { content: '\eb46'; }
+.codicon-rss:before { content: '\eb47'; }
+.codicon-ruby:before { content: '\eb48'; }
+.codicon-save-all:before { content: '\eb49'; }
+.codicon-save-as:before { content: '\eb4a'; }
+.codicon-save:before { content: '\eb4b'; }
+.codicon-screen-full:before { content: '\eb4c'; }
+.codicon-screen-normal:before { content: '\eb4d'; }
+.codicon-search-stop:before { content: '\eb4e'; }
+.codicon-server:before { content: '\eb50'; }
+.codicon-settings-gear:before { content: '\eb51'; }
+.codicon-settings:before { content: '\eb52'; }
+.codicon-shield:before { content: '\eb53'; }
+.codicon-smiley:before { content: '\eb54'; }
+.codicon-sort-precedence:before { content: '\eb55'; }
+.codicon-split-horizontal:before { content: '\eb56'; }
+.codicon-split-vertical:before { content: '\eb57'; }
+.codicon-squirrel:before { content: '\eb58'; }
+.codicon-star-full:before { content: '\eb59'; }
+.codicon-star-half:before { content: '\eb5a'; }
+.codicon-symbol-class:before { content: '\eb5b'; }
+.codicon-symbol-color:before { content: '\eb5c'; }
+.codicon-symbol-customcolor:before { content: '\eb5c'; }
+.codicon-symbol-constant:before { content: '\eb5d'; }
+.codicon-symbol-enum-member:before { content: '\eb5e'; }
+.codicon-symbol-field:before { content: '\eb5f'; }
+.codicon-symbol-file:before { content: '\eb60'; }
+.codicon-symbol-interface:before { content: '\eb61'; }
+.codicon-symbol-keyword:before { content: '\eb62'; }
+.codicon-symbol-misc:before { content: '\eb63'; }
+.codicon-symbol-operator:before { content: '\eb64'; }
+.codicon-symbol-property:before { content: '\eb65'; }
+.codicon-wrench:before { content: '\eb65'; }
+.codicon-wrench-subaction:before { content: '\eb65'; }
+.codicon-symbol-snippet:before { content: '\eb66'; }
+.codicon-tasklist:before { content: '\eb67'; }
+.codicon-telescope:before { content: '\eb68'; }
+.codicon-text-size:before { content: '\eb69'; }
+.codicon-three-bars:before { content: '\eb6a'; }
+.codicon-thumbsdown:before { content: '\eb6b'; }
+.codicon-thumbsup:before { content: '\eb6c'; }
+.codicon-tools:before { content: '\eb6d'; }
+.codicon-triangle-down:before { content: '\eb6e'; }
+.codicon-triangle-left:before { content: '\eb6f'; }
+.codicon-triangle-right:before { content: '\eb70'; }
+.codicon-triangle-up:before { content: '\eb71'; }
+.codicon-twitter:before { content: '\eb72'; }
+.codicon-unfold:before { content: '\eb73'; }
+.codicon-unlock:before { content: '\eb74'; }
+.codicon-unmute:before { content: '\eb75'; }
+.codicon-unverified:before { content: '\eb76'; }
+.codicon-verified:before { content: '\eb77'; }
+.codicon-versions:before { content: '\eb78'; }
+.codicon-vm-active:before { content: '\eb79'; }
+.codicon-vm-outline:before { content: '\eb7a'; }
+.codicon-vm-running:before { content: '\eb7b'; }
+.codicon-watch:before { content: '\eb7c'; }
+.codicon-whitespace:before { content: '\eb7d'; }
+.codicon-whole-word:before { content: '\eb7e'; }
+.codicon-window:before { content: '\eb7f'; }
+.codicon-word-wrap:before { content: '\eb80'; }
+.codicon-zoom-in:before { content: '\eb81'; }
+.codicon-zoom-out:before { content: '\eb82'; }
+.codicon-list-filter:before { content: '\eb83'; }
+.codicon-list-flat:before { content: '\eb84'; }
+.codicon-list-selection:before { content: '\eb85'; }
+.codicon-selection:before { content: '\eb85'; }
+.codicon-list-tree:before { content: '\eb86'; }
+.codicon-debug-breakpoint-function-unverified:before { content: '\eb87'; }
+.codicon-debug-breakpoint-function:before { content: '\eb88'; }
+.codicon-debug-breakpoint-function-disabled:before { content: '\eb88'; }
+.codicon-debug-stackframe-active:before { content: '\eb89'; }
+.codicon-circle-small-filled:before { content: '\eb8a'; }
+.codicon-debug-stackframe-dot:before { content: '\eb8a'; }
+.codicon-debug-stackframe:before { content: '\eb8b'; }
+.codicon-debug-stackframe-focused:before { content: '\eb8b'; }
+.codicon-debug-breakpoint-unsupported:before { content: '\eb8c'; }
+.codicon-symbol-string:before { content: '\eb8d'; }
+.codicon-debug-reverse-continue:before { content: '\eb8e'; }
+.codicon-debug-step-back:before { content: '\eb8f'; }
+.codicon-debug-restart-frame:before { content: '\eb90'; }
+.codicon-call-incoming:before { content: '\eb92'; }
+.codicon-call-outgoing:before { content: '\eb93'; }
+.codicon-menu:before { content: '\eb94'; }
+.codicon-expand-all:before { content: '\eb95'; }
+.codicon-feedback:before { content: '\eb96'; }
+.codicon-group-by-ref-type:before { content: '\eb97'; }
+.codicon-ungroup-by-ref-type:before { content: '\eb98'; }
+.codicon-account:before { content: '\eb99'; }
+.codicon-bell-dot:before { content: '\eb9a'; }
+.codicon-debug-console:before { content: '\eb9b'; }
+.codicon-library:before { content: '\eb9c'; }
+.codicon-output:before { content: '\eb9d'; }
+.codicon-run-all:before { content: '\eb9e'; }
+.codicon-sync-ignored:before { content: '\eb9f'; }
+.codicon-pinned:before { content: '\eba0'; }
+.codicon-github-inverted:before { content: '\eba1'; }
+.codicon-debug-alt:before { content: '\eb91'; }
+.codicon-server-process:before { content: '\eba2'; }
+.codicon-server-environment:before { content: '\eba3'; }
+.codicon-pass:before { content: '\eba4'; }
+.codicon-stop-circle:before { content: '\eba5'; }
+.codicon-play-circle:before { content: '\eba6'; }
+.codicon-record:before { content: '\eba7'; }
+.codicon-debug-alt-small:before { content: '\eba8'; }
+.codicon-vm-connect:before { content: '\eba9'; }
+.codicon-cloud:before { content: '\ebaa'; }
+.codicon-merge:before { content: '\ebab'; }
+.codicon-export:before { content: '\ebac'; }
+.codicon-graph-left:before { content: '\ebad'; }
+.codicon-magnet:before { content: '\ebae'; }
+.codicon-notebook:before { content: '\ebaf'; }
+.codicon-redo:before { content: '\ebb0'; }
+.codicon-check-all:before { content: '\ebb1'; }
+.codicon-pinned-dirty:before { content: '\ebb2'; }
+.codicon-pass-filled:before { content: '\ebb3'; }
+.codicon-circle-large-filled:before { content: '\ebb4'; }
+.codicon-circle-large-outline:before { content: '\ebb5'; }
+.codicon-combine:before { content: '\ebb6'; }
+.codicon-gather:before { content: '\ebb6'; }
+.codicon-table:before { content: '\ebb7'; }
+.codicon-variable-group:before { content: '\ebb8'; }
+.codicon-type-hierarchy:before { content: '\ebb9'; }
+.codicon-type-hierarchy-sub:before { content: '\ebba'; }
+.codicon-type-hierarchy-super:before { content: '\ebbb'; }
+.codicon-git-pull-request-create:before { content: '\ebbc'; }
+.codicon-run-above:before { content: '\ebbd'; }
+.codicon-run-below:before { content: '\ebbe'; }
+.codicon-notebook-template:before { content: '\ebbf'; }
+.codicon-debug-rerun:before { content: '\ebc0'; }
+.codicon-workspace-trusted:before { content: '\ebc1'; }
+.codicon-workspace-untrusted:before { content: '\ebc2'; }
+.codicon-workspace-unspecified:before { content: '\ebc3'; }
+.codicon-terminal-cmd:before { content: '\ebc4'; }
+.codicon-terminal-debian:before { content: '\ebc5'; }
+.codicon-terminal-linux:before { content: '\ebc6'; }
+.codicon-terminal-powershell:before { content: '\ebc7'; }
+.codicon-terminal-tmux:before { content: '\ebc8'; }
+.codicon-terminal-ubuntu:before { content: '\ebc9'; }
+.codicon-terminal-bash:before { content: '\ebca'; }
+.codicon-arrow-swap:before { content: '\ebcb'; }
+.codicon-copy:before { content: '\ebcc'; }
+.codicon-person-add:before { content: '\ebcd'; }
+.codicon-filter-filled:before { content: '\ebce'; }
+.codicon-wand:before { content: '\ebcf'; }
+.codicon-debug-line-by-line:before { content: '\ebd0'; }
+.codicon-inspect:before { content: '\ebd1'; }
+.codicon-layers:before { content: '\ebd2'; }
+.codicon-layers-dot:before { content: '\ebd3'; }
+.codicon-layers-active:before { content: '\ebd4'; }
+.codicon-compass:before { content: '\ebd5'; }
+.codicon-compass-dot:before { content: '\ebd6'; }
+.codicon-compass-active:before { content: '\ebd7'; }
+.codicon-azure:before { content: '\ebd8'; }
+.codicon-issue-draft:before { content: '\ebd9'; }
+.codicon-git-pull-request-closed:before { content: '\ebda'; }
+.codicon-git-pull-request-draft:before { content: '\ebdb'; }
+.codicon-debug-all:before { content: '\ebdc'; }
+.codicon-debug-coverage:before { content: '\ebdd'; }
+.codicon-run-errors:before { content: '\ebde'; }
+.codicon-folder-library:before { content: '\ebdf'; }
+.codicon-debug-continue-small:before { content: '\ebe0'; }
+.codicon-beaker-stop:before { content: '\ebe1'; }
+.codicon-graph-line:before { content: '\ebe2'; }
+.codicon-graph-scatter:before { content: '\ebe3'; }
+.codicon-pie-chart:before { content: '\ebe4'; }
+.codicon-bracket:before { content: '\eb0f'; }
+.codicon-bracket-dot:before { content: '\ebe5'; }
+.codicon-bracket-error:before { content: '\ebe6'; }
+.codicon-lock-small:before { content: '\ebe7'; }
+.codicon-azure-devops:before { content: '\ebe8'; }
+.codicon-verified-filled:before { content: '\ebe9'; }
+.codicon-newline:before { content: '\ebea'; }
+.codicon-layout:before { content: '\ebeb'; }
+.codicon-layout-activitybar-left:before { content: '\ebec'; }
+.codicon-layout-activitybar-right:before { content: '\ebed'; }
+.codicon-layout-panel-left:before { content: '\ebee'; }
+.codicon-layout-panel-center:before { content: '\ebef'; }
+.codicon-layout-panel-justify:before { content: '\ebf0'; }
+.codicon-layout-panel-right:before { content: '\ebf1'; }
+.codicon-layout-panel:before { content: '\ebf2'; }
+.codicon-layout-sidebar-left:before { content: '\ebf3'; }
+.codicon-layout-sidebar-right:before { content: '\ebf4'; }
+.codicon-layout-statusbar:before { content: '\ebf5'; }
+.codicon-layout-menubar:before { content: '\ebf6'; }
+.codicon-layout-centered:before { content: '\ebf7'; }
+.codicon-layout-sidebar-right-off:before { content: '\ec00'; }
+.codicon-layout-panel-off:before { content: '\ec01'; }
+.codicon-layout-sidebar-left-off:before { content: '\ec02'; }
+.codicon-target:before { content: '\ebf8'; }
+.codicon-indent:before { content: '\ebf9'; }
+.codicon-record-small:before { content: '\ebfa'; }
+.codicon-error-small:before { content: '\ebfb'; }
+.codicon-arrow-circle-down:before { content: '\ebfc'; }
+.codicon-arrow-circle-left:before { content: '\ebfd'; }
+.codicon-arrow-circle-right:before { content: '\ebfe'; }
+.codicon-arrow-circle-up:before { content: '\ebff'; }
+.codicon-heart-filled:before { content: '\ec04'; }
+.codicon-map:before { content: '\ec05'; }
+.codicon-map-filled:before { content: '\ec06'; }
+.codicon-circle-small:before { content: '\ec07'; }
+.codicon-bell-slash:before { content: '\ec08'; }
+.codicon-bell-slash-dot:before { content: '\ec09'; }
+.codicon-comment-unresolved:before { content: '\ec0a'; }
+.codicon-git-pull-request-go-to-changes:before { content: '\ec0b'; }
+.codicon-git-pull-request-new-changes:before { content: '\ec0c'; }
+.codicon-dialog-error:before { content: '\ea87'; }
+.codicon-dialog-warning:before { content: '\ea6c'; }
+.codicon-dialog-info:before { content: '\ea74'; }
+.codicon-dialog-close:before { content: '\ea76'; }
+.codicon-tree-item-expanded:before { content: '\eab4'; }
+.codicon-tree-filter-on-type-on:before { content: '\eb83'; }
+.codicon-tree-filter-on-type-off:before { content: '\eb85'; }
+.codicon-tree-filter-clear:before { content: '\ea76'; }
+.codicon-tree-item-loading:before { content: '\eb19'; }
+.codicon-menu-selection:before { content: '\eab2'; }
+.codicon-menu-submenu:before { content: '\eab6'; }
+.codicon-menubar-more:before { content: '\ea7c'; }
+.codicon-scrollbar-button-left:before { content: '\eb6f'; }
+.codicon-scrollbar-button-right:before { content: '\eb70'; }
+.codicon-scrollbar-button-up:before { content: '\eb71'; }
+.codicon-scrollbar-button-down:before { content: '\eb6e'; }
+.codicon-toolbar-more:before { content: '\ea7c'; }
+.codicon-quick-input-back:before { content: '\ea9b'; }
+.codicon-widget-close:before { content: '\ea76'; }
+.codicon-goto-previous-location:before { content: '\eaa1'; }
+.codicon-goto-next-location:before { content: '\ea9a'; }
+.codicon-diff-review-insert:before { content: '\ea60'; }
+.codicon-diff-review-remove:before { content: '\eb3b'; }
+.codicon-diff-review-close:before { content: '\ea76'; }
+.codicon-parameter-hints-next:before { content: '\eab4'; }
+.codicon-parameter-hints-previous:before { content: '\eab7'; }
+.codicon-suggest-more-info:before { content: '\eab6'; }
+.codicon-diff-insert:before { content: '\ea60'; }
+.codicon-diff-remove:before { content: '\eb3b'; }
+.codicon-find-selection:before { content: '\eb85'; }
+.codicon-find-collapsed:before { content: '\eab6'; }
+.codicon-find-expanded:before { content: '\eab4'; }
+.codicon-find-replace:before { content: '\eb3d'; }
+.codicon-find-replace-all:before { content: '\eb3c'; }
+.codicon-find-previous-match:before { content: '\eaa1'; }
+.codicon-find-next-match:before { content: '\ea9a'; }
+.codicon-folding-expanded:before { content: '\eab4'; }
+.codicon-folding-collapsed:before { content: '\eab6'; }
+.codicon-folding-manual-collapsed:before { content: '\eab6'; }
+.codicon-folding-manual-expanded:before { content: '\eab4'; }
+.codicon-marker-navigation-next:before { content: '\ea9a'; }
+.codicon-marker-navigation-previous:before { content: '\eaa1'; }
+.codicon-extensions-warning-message:before { content: '\ea6c'; }
+
+			.monaco-scrollable-element > .shadow.top {
+				box-shadow: #000000 0 6px 6px -6px inset;
+			}
+
+			.monaco-scrollable-element > .shadow.left {
+				box-shadow: #000000 6px 0 6px -6px inset;
+			}
+
+			.monaco-scrollable-element > .shadow.top.left {
+				box-shadow: #000000 6px 6px 6px -6px inset;
+			}
+		
+
+			.monaco-scrollable-element > .scrollbar > .slider {
+				background: rgba(121, 121, 121, 0.4);
+			}
+		
+
+			.monaco-scrollable-element > .scrollbar > .slider:hover {
+				background: rgba(100, 100, 100, 0.7);
+			}
+		
+
+			.monaco-scrollable-element > .scrollbar > .slider.active {
+				background: rgba(191, 191, 191, 0.4);
+			}
+		
+.monaco-editor .minimap-slider .minimap-slider-horizontal { background: rgba(121, 121, 121, 0.2); }
+.monaco-editor .minimap-slider:hover .minimap-slider-horizontal { background: rgba(100, 100, 100, 0.35); }
+.monaco-editor .minimap-slider.active .minimap-slider-horizontal { background: rgba(191, 191, 191, 0.2); }
+.monaco-editor .minimap-shadow-visible { box-shadow: #000000 -6px 0 6px -6px inset; }
+.monaco-editor .scroll-decoration { box-shadow: #000000 0 6px 6px -6px inset; }
+.monaco-editor .focused .selected-text { background-color: #264f78; }
+.monaco-editor .selected-text { background-color: #3a3d41; }
+.monaco-editor, .monaco-editor-background { background-color: #1e1e1e; }
+.monaco-editor .inputarea.ime-input { background-color: #1e1e1e; }
+.monaco-editor, .monaco-editor .inputarea.ime-input { color: #d4d4d4; }
+.monaco-editor .margin { background-color: #1e1e1e; }
+.monaco-editor .rangeHighlight { background-color: rgba(255, 255, 255, 0.04); }
+.monaco-editor .symbolHighlight { background-color: rgba(234, 92, 0, 0.33); }
+.monaco-editor .mtkw { color: rgba(227, 228, 226, 0.16) !important; }
+.monaco-editor .mtkz { color: rgba(227, 228, 226, 0.16) !important; }
+.monaco-editor .view-overlays .current-line { border: 2px solid #282828; }
+.monaco-editor .margin-view-overlays .current-line-margin { border: 2px solid #282828; }
+.monaco-editor .lines-content .core-guide-indent { box-shadow: 1px 0 0 0 #404040 inset; }
+.monaco-editor .lines-content .core-guide-indent-active { box-shadow: 1px 0 0 0 #707070 inset; }
+.monaco-editor .bracket-indent-guide.lvl-0 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-1 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-2 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .bracket-indent-guide.lvl-3 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-4 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-5 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .bracket-indent-guide.lvl-6 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-7 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-8 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .bracket-indent-guide.lvl-9 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-10 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-11 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .bracket-indent-guide.lvl-12 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-13 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-14 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .bracket-indent-guide.lvl-15 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-16 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-17 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .bracket-indent-guide.lvl-18 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-19 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-20 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .bracket-indent-guide.lvl-21 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-22 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-23 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .bracket-indent-guide.lvl-24 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-25 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-26 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .bracket-indent-guide.lvl-27 { --guide-color: rgba(255, 215, 0, 0.3); --guide-color-active: #ffd700; }
+.monaco-editor .bracket-indent-guide.lvl-28 { --guide-color: rgba(218, 112, 214, 0.3); --guide-color-active: #da70d6; }
+.monaco-editor .bracket-indent-guide.lvl-29 { --guide-color: rgba(23, 159, 255, 0.3); --guide-color-active: #179fff; }
+.monaco-editor .vertical { box-shadow: 1px 0 0 0 var(--guide-color) inset; }
+.monaco-editor .horizontal-top { border-top: 1px solid var(--guide-color); }
+.monaco-editor .horizontal-bottom { border-bottom: 1px solid var(--guide-color); }
+.monaco-editor .vertical.indent-active { box-shadow: 1px 0 0 0 var(--guide-color-active) inset; }
+.monaco-editor .horizontal-top.indent-active { border-top: 1px solid var(--guide-color-active); }
+.monaco-editor .horizontal-bottom.indent-active { border-bottom: 1px solid var(--guide-color-active); }
+.monaco-editor .line-numbers { color: #858585; }
+.monaco-editor .line-numbers.active-line-number { color: #c6c6c6; }
+.monaco-editor .view-ruler { box-shadow: 1px 0 0 0 #5a5a5a inset; }
+.monaco-editor .inputarea.ime-input { caret-color: #aeafad; }
+.monaco-editor .cursors-layer .cursor { background-color: #aeafad; border-color: #aeafad; color: #515052; }
+.monaco-editor .unexpected-closing-bracket { color: rgba(255, 18, 18, 0.8); }
+.monaco-editor .bracket-highlighting-0 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-1 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-2 { color: #179fff; }
+.monaco-editor .bracket-highlighting-3 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-4 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-5 { color: #179fff; }
+.monaco-editor .bracket-highlighting-6 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-7 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-8 { color: #179fff; }
+.monaco-editor .bracket-highlighting-9 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-10 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-11 { color: #179fff; }
+.monaco-editor .bracket-highlighting-12 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-13 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-14 { color: #179fff; }
+.monaco-editor .bracket-highlighting-15 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-16 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-17 { color: #179fff; }
+.monaco-editor .bracket-highlighting-18 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-19 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-20 { color: #179fff; }
+.monaco-editor .bracket-highlighting-21 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-22 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-23 { color: #179fff; }
+.monaco-editor .bracket-highlighting-24 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-25 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-26 { color: #179fff; }
+.monaco-editor .bracket-highlighting-27 { color: #ffd700; }
+.monaco-editor .bracket-highlighting-28 { color: #da70d6; }
+.monaco-editor .bracket-highlighting-29 { color: #179fff; }
+.monaco-editor .ghost-text-decoration { color: rgba(255, 255, 255, 0.34) !important; }
+.monaco-editor .ghost-text-decoration-preview { color: rgba(255, 255, 255, 0.34) !important; }
+.monaco-editor .suggest-preview-text .ghost-text { color: rgba(255, 255, 255, 0.34) !important; }
+.monaco-editor.vs .valueSetReplacement { outline: solid 2px #888888; }
+
+		.monaco-editor .contentWidgets .codicon.codicon-light-bulb {
+			color: #ffcc00;
+			background-color: rgba(30, 30, 30, 0.7);
+		}
+
+		.monaco-editor .contentWidgets .codicon.codicon-lightbulb-autofix {
+			color: #75beff;
+			background-color: rgba(30, 30, 30, 0.7);
+		}
+.codicon.codicon-symbol-array { color: #cccccc; }
+.codicon.codicon-symbol-boolean { color: #cccccc; }
+.codicon.codicon-symbol-class { color: #ee9d28; }
+.codicon.codicon-symbol-method { color: #b180d7; }
+.codicon.codicon-symbol-color { color: #cccccc; }
+.codicon.codicon-symbol-constant { color: #cccccc; }
+.codicon.codicon-symbol-constructor { color: #b180d7; }
+
+			.codicon.codicon-symbol-value,.codicon.codicon-symbol-enum { color: #ee9d28; }
+.codicon.codicon-symbol-enum-member { color: #75beff; }
+.codicon.codicon-symbol-event { color: #ee9d28; }
+.codicon.codicon-symbol-field { color: #75beff; }
+.codicon.codicon-symbol-file { color: #cccccc; }
+.codicon.codicon-symbol-folder { color: #cccccc; }
+.codicon.codicon-symbol-function { color: #b180d7; }
+.codicon.codicon-symbol-interface { color: #75beff; }
+.codicon.codicon-symbol-key { color: #cccccc; }
+.codicon.codicon-symbol-keyword { color: #cccccc; }
+.codicon.codicon-symbol-module { color: #cccccc; }
+.codicon.codicon-symbol-namespace { color: #cccccc; }
+.codicon.codicon-symbol-null { color: #cccccc; }
+.codicon.codicon-symbol-number { color: #cccccc; }
+.codicon.codicon-symbol-object { color: #cccccc; }
+.codicon.codicon-symbol-operator { color: #cccccc; }
+.codicon.codicon-symbol-package { color: #cccccc; }
+.codicon.codicon-symbol-property { color: #cccccc; }
+.codicon.codicon-symbol-reference { color: #cccccc; }
+.codicon.codicon-symbol-snippet { color: #cccccc; }
+.codicon.codicon-symbol-string { color: #cccccc; }
+.codicon.codicon-symbol-struct { color: #cccccc; }
+.codicon.codicon-symbol-text { color: #cccccc; }
+.codicon.codicon-symbol-type-parameter { color: #cccccc; }
+.codicon.codicon-symbol-unit { color: #cccccc; }
+.codicon.codicon-symbol-variable { color: #75beff; }
+.monaco-editor .accessibilityHelpWidget { background-color: #252526; }
+.monaco-editor .accessibilityHelpWidget { color: #cccccc; }
+.monaco-editor .accessibilityHelpWidget { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.36); }
+.monaco-editor .tokens-inspect-widget { border: 1px solid #454545; }
+.monaco-editor .tokens-inspect-widget .tokens-inspect-separator { background-color: #454545; }
+.monaco-editor .tokens-inspect-widget { background-color: #252526; }
+.monaco-editor .tokens-inspect-widget { color: #cccccc; }
+.monaco-link { color: #3794ff; }
+.monaco-link:hover { color: #3794ff; }
+
+			.monaco-editor .zone-widget .codicon.codicon-error,
+			.markers-panel .marker-icon.codicon.codicon-error,
+			.text-search-provider-messages .providerMessage .codicon.codicon-error,
+			.extensions-viewlet > .extensions .codicon.codicon-error {
+				color: #f14c4c;
+			}
+		
+
+			.monaco-editor .zone-widget .codicon.codicon-warning,
+			.markers-panel .marker-icon.codicon.codicon-warning,
+			.extensions-viewlet > .extensions .codicon.codicon-warning,
+			.extension-editor .codicon.codicon-warning,
+			.text-search-provider-messages .providerMessage .codicon.codicon-warning,
+			.preferences-editor .codicon.codicon-warning {
+				color: #cca700;
+			}
+		
+
+			.monaco-editor .zone-widget .codicon.codicon-info,
+			.markers-panel .marker-icon.codicon.codicon-info,
+			.extensions-viewlet > .extensions .codicon.codicon-info,
+			.text-search-provider-messages .providerMessage .codicon.codicon-info,
+			.extension-editor .codicon.codicon-info {
+				color: #3794ff;
+			}
+		
+.monaco-editor .squiggly-error { background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%206%203'%20enable-background%3D'new%200%200%206%203'%20height%3D'3'%20width%3D'6'%3E%3Cg%20fill%3D'%23f14c4c'%3E%3Cpolygon%20points%3D'5.5%2C0%202.5%2C3%201.1%2C3%204.1%2C0'%2F%3E%3Cpolygon%20points%3D'4%2C0%206%2C2%206%2C0.6%205.4%2C0'%2F%3E%3Cpolygon%20points%3D'0%2C2%201%2C3%202.4%2C3%200%2C0.6'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") repeat-x bottom left; }
+.monaco-editor .squiggly-warning { background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%206%203'%20enable-background%3D'new%200%200%206%203'%20height%3D'3'%20width%3D'6'%3E%3Cg%20fill%3D'%23cca700'%3E%3Cpolygon%20points%3D'5.5%2C0%202.5%2C3%201.1%2C3%204.1%2C0'%2F%3E%3Cpolygon%20points%3D'4%2C0%206%2C2%206%2C0.6%205.4%2C0'%2F%3E%3Cpolygon%20points%3D'0%2C2%201%2C3%202.4%2C3%200%2C0.6'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") repeat-x bottom left; }
+.monaco-editor .squiggly-info { background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%206%203'%20enable-background%3D'new%200%200%206%203'%20height%3D'3'%20width%3D'6'%3E%3Cg%20fill%3D'%233794ff'%3E%3Cpolygon%20points%3D'5.5%2C0%202.5%2C3%201.1%2C3%204.1%2C0'%2F%3E%3Cpolygon%20points%3D'4%2C0%206%2C2%206%2C0.6%205.4%2C0'%2F%3E%3Cpolygon%20points%3D'0%2C2%201%2C3%202.4%2C3%200%2C0.6'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") repeat-x bottom left; }
+.monaco-editor .squiggly-hint { background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%223%22%20width%3D%2212%22%3E%3Cg%20fill%3D%22rgba(238%2C%20238%2C%20238%2C%200.7)%22%3E%3Ccircle%20cx%3D%221%22%20cy%3D%221%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%225%22%20cy%3D%221%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%229%22%20cy%3D%221%22%20r%3D%221%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") no-repeat bottom left; }
+.monaco-editor.showUnused .squiggly-inline-unnecessary { opacity: 0.667; }
+.monaco-editor.showDeprecated .squiggly-inline-deprecated { text-decoration: line-through; text-decoration-color: #d4d4d4}
+.monaco-editor .bracket-match { background-color: rgba(0, 100, 0, 0.1); }
+.monaco-editor .bracket-match { border: 1px solid #888888; }
+.monaco-editor .findOptionsWidget { background-color: #252526; }
+.monaco-editor .findOptionsWidget { color: #cccccc; }
+.monaco-editor .findOptionsWidget { box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.36); }
+.monaco-editor .linked-editing-decoration { background: rgba(255, 0, 0, 0.3); border-left-color: rgba(255, 0, 0, 0.3); }
+.monaco-editor .detected-link-active { color: #4e94ce !important; }
+.monaco-editor .focused .selectionHighlight { background-color: rgba(173, 214, 255, 0.15); }
+.monaco-editor .selectionHighlight { background-color: rgba(173, 214, 255, 0.07); }
+.monaco-editor .wordHighlight { background-color: rgba(87, 87, 87, 0.72); }
+.monaco-editor .wordHighlightStrong { background-color: rgba(0, 73, 114, 0.72); }
+.monaco-editor .goto-definition-link { color: #4e94ce !important; }
+.monaco-diff-editor .diff-review-line-number { color: #858585; }
+.monaco-diff-editor .diff-review-shadow { box-shadow: #000000 0 -6px 6px -6px inset; }
+.monaco-editor .parameter-hints-widget { border: 1px solid #454545; }
+.monaco-editor .parameter-hints-widget.multiple .body { border-left: 1px solid rgba(69, 69, 69, 0.5); }
+.monaco-editor .parameter-hints-widget .signature.has-docs { border-bottom: 1px solid rgba(69, 69, 69, 0.5); }
+.monaco-editor .parameter-hints-widget { background-color: #252526; }
+.monaco-editor .parameter-hints-widget a { color: #3794ff; }
+.monaco-editor .parameter-hints-widget a:hover { color: #3794ff; }
+.monaco-editor .parameter-hints-widget { color: #cccccc; }
+.monaco-editor .parameter-hints-widget code { background-color: rgba(10, 10, 10, 0.4); }
+.monaco-editor .parameter-hints-widget .parameter.active { color: #2aaaff}
+.monaco-editor .char-insert, .monaco-diff-editor .char-insert { background-color: rgba(156, 204, 44, 0.2); }
+.monaco-editor .line-insert, .monaco-diff-editor .line-insert { background-color: rgba(155, 185, 85, 0.2); }
+.monaco-editor .inline-added-margin-view-zone { background-color: rgba(155, 185, 85, 0.2); }
+.monaco-editor .gutter-insert, .monaco-diff-editor .gutter-insert { background-color: rgba(155, 185, 85, 0.2); }
+.monaco-editor .char-delete, .monaco-diff-editor .char-delete { background-color: rgba(255, 0, 0, 0.4); }
+.monaco-editor .line-delete, .monaco-diff-editor .line-delete { background-color: rgba(255, 0, 0, 0.2); }
+.monaco-editor .inline-deleted-margin-view-zone { background-color: rgba(255, 0, 0, 0.2); }
+.monaco-editor .gutter-delete, .monaco-diff-editor .gutter-delete { background-color: rgba(255, 0, 0, 0.2); }
+.monaco-diff-editor.side-by-side .editor.modified { box-shadow: -6px 0 5px -5px #000000; }
+
+			.monaco-diff-editor .diffViewport {
+				background: rgba(121, 121, 121, 0.4);
+			}
+		
+
+			.monaco-diff-editor .diffViewport:hover {
+				background: rgba(100, 100, 100, 0.7);
+			}
+		
+
+			.monaco-diff-editor .diffViewport:active {
+				background: rgba(191, 191, 191, 0.4);
+			}
+		
+
+	.monaco-editor .diagonal-fill {
+		background-image: linear-gradient(
+			-45deg,
+			rgba(204, 204, 204, 0.2) 12.5%,
+			#0000 12.5%, #0000 50%,
+			rgba(204, 204, 204, 0.2) 50%, rgba(204, 204, 204, 0.2) 62.5%,
+			#0000 62.5%, #0000 100%
+		);
+		background-size: 8px 8px;
+	}
+	
+.monaco-editor .findMatch { background-color: rgba(234, 92, 0, 0.33); }
+.monaco-editor .currentFindMatch { background-color: #515c6a; }
+.monaco-editor .findScope { background-color: rgba(58, 61, 65, 0.4); }
+.monaco-editor .find-widget { background-color: #252526; }
+.monaco-editor .find-widget { box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.36); }
+.monaco-editor .find-widget { color: #cccccc; }
+.monaco-editor .find-widget.no-results .matchesCount { color: #f48771; }
+.monaco-editor .find-widget .monaco-sash { background-color: #454545; }
+
+		.monaco-editor .find-widget .button:not(.disabled):hover,
+		.monaco-editor .find-widget .codicon-find-selection:hover {
+			background-color: rgba(90, 93, 94, 0.31) !important;
+		}
+	
+.monaco-editor .find-widget .monaco-inputbox.synthetic-focus { outline-color: #007fd4; }
+.monaco-editor .folded-background { background-color: rgba(38, 79, 120, 0.3); }
+
+		.monaco-editor .cldr.codicon.codicon-folding-expanded,
+		.monaco-editor .cldr.codicon.codicon-folding-collapsed,
+		.monaco-editor .cldr.codicon.codicon-folding-manual-expanded,
+		.monaco-editor .cldr.codicon.codicon-folding-manual-collapsed {
+			color: #c5c5c5 !important;
+		}
+		
+.monaco-hover .hover-contents a.code-link span { color: #3794ff; }
+.monaco-hover .hover-contents a.code-link span:hover { color: #3794ff; }
+.monaco-editor .hoverHighlight { background-color: rgba(38, 79, 120, 0.25); }
+.monaco-editor .monaco-hover { background-color: #252526; }
+.monaco-editor .monaco-hover { border: 1px solid #454545; }
+.monaco-editor .monaco-hover .hover-row:not(:first-child):not(:empty) { border-top: 1px solid rgba(69, 69, 69, 0.5); }
+.monaco-editor .monaco-hover hr { border-top: 1px solid rgba(69, 69, 69, 0.5); }
+.monaco-editor .monaco-hover hr { border-bottom: 0px solid rgba(69, 69, 69, 0.5); }
+.monaco-editor .monaco-hover a { color: #3794ff; }
+.monaco-editor .monaco-hover a:hover { color: #3794ff; }
+.monaco-editor .monaco-hover { color: #cccccc; }
+.monaco-editor .monaco-hover .hover-row .actions { background-color: #2c2c2d; }
+.monaco-editor .monaco-hover code { background-color: rgba(10, 10, 10, 0.4); }
+.monaco-editor { --vscode-foreground: #cccccc;
+--vscode-disabledForeground: rgba(204, 204, 204, 0.5);
+--vscode-errorForeground: #f48771;
+--vscode-descriptionForeground: rgba(204, 204, 204, 0.7);
+--vscode-icon-foreground: #c5c5c5;
+--vscode-focusBorder: #007fd4;
+--vscode-textSeparator-foreground: rgba(255, 255, 255, 0.18);
+--vscode-textLink-foreground: #3794ff;
+--vscode-textLink-activeForeground: #3794ff;
+--vscode-textPreformat-foreground: #d7ba7d;
+--vscode-textBlockQuote-background: rgba(127, 127, 127, 0.1);
+--vscode-textBlockQuote-border: rgba(0, 122, 204, 0.5);
+--vscode-textCodeBlock-background: rgba(10, 10, 10, 0.4);
+--vscode-widget-shadow: rgba(0, 0, 0, 0.36);
+--vscode-input-background: #3c3c3c;
+--vscode-input-foreground: #cccccc;
+--vscode-inputOption-activeBorder: rgba(0, 122, 204, 0);
+--vscode-inputOption-hoverBackground: rgba(90, 93, 94, 0.5);
+--vscode-inputOption-activeBackground: rgba(0, 127, 212, 0.4);
+--vscode-inputOption-activeForeground: #ffffff;
+--vscode-input-placeholderForeground: rgba(204, 204, 204, 0.5);
+--vscode-inputValidation-infoBackground: #063b49;
+--vscode-inputValidation-infoBorder: #007acc;
+--vscode-inputValidation-warningBackground: #352a05;
+--vscode-inputValidation-warningBorder: #b89500;
+--vscode-inputValidation-errorBackground: #5a1d1d;
+--vscode-inputValidation-errorBorder: #be1100;
+--vscode-dropdown-background: #3c3c3c;
+--vscode-dropdown-foreground: #f0f0f0;
+--vscode-dropdown-border: #3c3c3c;
+--vscode-checkbox-background: #3c3c3c;
+--vscode-checkbox-foreground: #f0f0f0;
+--vscode-checkbox-border: #3c3c3c;
+--vscode-button-foreground: #ffffff;
+--vscode-button-separator: rgba(255, 255, 255, 0.4);
+--vscode-button-background: #0e639c;
+--vscode-button-hoverBackground: #1177bb;
+--vscode-button-secondaryForeground: #ffffff;
+--vscode-button-secondaryBackground: #3a3d41;
+--vscode-button-secondaryHoverBackground: #45494e;
+--vscode-badge-background: #4d4d4d;
+--vscode-badge-foreground: #ffffff;
+--vscode-scrollbar-shadow: #000000;
+--vscode-scrollbarSlider-background: rgba(121, 121, 121, 0.4);
+--vscode-scrollbarSlider-hoverBackground: rgba(100, 100, 100, 0.7);
+--vscode-scrollbarSlider-activeBackground: rgba(191, 191, 191, 0.4);
+--vscode-progressBar-background: #0e70c0;
+--vscode-editorError-foreground: #f14c4c;
+--vscode-editorWarning-foreground: #cca700;
+--vscode-editorInfo-foreground: #3794ff;
+--vscode-editorHint-foreground: rgba(238, 238, 238, 0.7);
+--vscode-sash-hoverBorder: #007fd4;
+--vscode-editor-background: #1e1e1e;
+--vscode-editor-foreground: #d4d4d4;
+--vscode-editorStickyScroll-background: #1e1e1e;
+--vscode-editorStickyScrollHover-background: #2a2d2e;
+--vscode-editorWidget-background: #252526;
+--vscode-editorWidget-foreground: #cccccc;
+--vscode-editorWidget-border: #454545;
+--vscode-quickInput-background: #252526;
+--vscode-quickInput-foreground: #cccccc;
+--vscode-quickInputTitle-background: rgba(255, 255, 255, 0.1);
+--vscode-pickerGroup-foreground: #3794ff;
+--vscode-pickerGroup-border: #3f3f46;
+--vscode-keybindingLabel-background: rgba(128, 128, 128, 0.17);
+--vscode-keybindingLabel-foreground: #cccccc;
+--vscode-keybindingLabel-border: rgba(51, 51, 51, 0.6);
+--vscode-keybindingLabel-bottomBorder: rgba(68, 68, 68, 0.6);
+--vscode-editor-selectionBackground: #264f78;
+--vscode-editor-inactiveSelectionBackground: #3a3d41;
+--vscode-editor-selectionHighlightBackground: rgba(173, 214, 255, 0.15);
+--vscode-editor-findMatchBackground: #515c6a;
+--vscode-editor-findMatchHighlightBackground: rgba(234, 92, 0, 0.33);
+--vscode-editor-findRangeHighlightBackground: rgba(58, 61, 65, 0.4);
+--vscode-searchEditor-findMatchBackground: rgba(234, 92, 0, 0.22);
+--vscode-editor-hoverHighlightBackground: rgba(38, 79, 120, 0.25);
+--vscode-editorHoverWidget-background: #252526;
+--vscode-editorHoverWidget-foreground: #cccccc;
+--vscode-editorHoverWidget-border: #454545;
+--vscode-editorHoverWidget-statusBarBackground: #2c2c2d;
+--vscode-editorLink-activeForeground: #4e94ce;
+--vscode-editorInlayHint-foreground: rgba(255, 255, 255, 0.8);
+--vscode-editorInlayHint-background: rgba(77, 77, 77, 0.6);
+--vscode-editorInlayHint-typeForeground: rgba(255, 255, 255, 0.8);
+--vscode-editorInlayHint-typeBackground: rgba(77, 77, 77, 0.6);
+--vscode-editorInlayHint-parameterForeground: rgba(255, 255, 255, 0.8);
+--vscode-editorInlayHint-parameterBackground: rgba(77, 77, 77, 0.6);
+--vscode-editorLightBulb-foreground: #ffcc00;
+--vscode-editorLightBulbAutoFix-foreground: #75beff;
+--vscode-diffEditor-insertedTextBackground: rgba(156, 204, 44, 0.2);
+--vscode-diffEditor-removedTextBackground: rgba(255, 0, 0, 0.4);
+--vscode-diffEditor-insertedLineBackground: rgba(155, 185, 85, 0.2);
+--vscode-diffEditor-removedLineBackground: rgba(255, 0, 0, 0.2);
+--vscode-diffEditor-diagonalFill: rgba(204, 204, 204, 0.2);
+--vscode-list-focusOutline: #007fd4;
+--vscode-list-activeSelectionBackground: #04395e;
+--vscode-list-activeSelectionForeground: #ffffff;
+--vscode-list-inactiveSelectionBackground: #37373d;
+--vscode-list-hoverBackground: #2a2d2e;
+--vscode-list-dropBackground: #062f4a;
+--vscode-list-highlightForeground: #2aaaff;
+--vscode-list-focusHighlightForeground: #2aaaff;
+--vscode-list-invalidItemForeground: #b89500;
+--vscode-list-errorForeground: #f88070;
+--vscode-list-warningForeground: #cca700;
+--vscode-listFilterWidget-background: #252526;
+--vscode-listFilterWidget-outline: rgba(0, 0, 0, 0);
+--vscode-listFilterWidget-noMatchesOutline: #be1100;
+--vscode-listFilterWidget-shadow: rgba(0, 0, 0, 0.36);
+--vscode-list-filterMatchBackground: rgba(234, 92, 0, 0.33);
+--vscode-tree-indentGuidesStroke: #585858;
+--vscode-tree-tableColumnsBorder: rgba(204, 204, 204, 0.13);
+--vscode-tree-tableOddRowsBackground: rgba(204, 204, 204, 0.04);
+--vscode-list-deemphasizedForeground: #8c8c8c;
+--vscode-quickInputList-focusForeground: #ffffff;
+--vscode-quickInputList-focusBackground: #04395e;
+--vscode-menu-foreground: #f0f0f0;
+--vscode-menu-background: #3c3c3c;
+--vscode-menu-selectionForeground: #ffffff;
+--vscode-menu-selectionBackground: #04395e;
+--vscode-menu-separatorBackground: #606060;
+--vscode-toolbar-hoverBackground: rgba(90, 93, 94, 0.31);
+--vscode-toolbar-activeBackground: rgba(99, 102, 103, 0.31);
+--vscode-editor-snippetTabstopHighlightBackground: rgba(124, 124, 124, 0.3);
+--vscode-editor-snippetFinalTabstopHighlightBorder: #525252;
+--vscode-breadcrumb-foreground: rgba(204, 204, 204, 0.8);
+--vscode-breadcrumb-background: #1e1e1e;
+--vscode-breadcrumb-focusForeground: #e0e0e0;
+--vscode-breadcrumb-activeSelectionForeground: #e0e0e0;
+--vscode-breadcrumbPicker-background: #252526;
+--vscode-merge-currentHeaderBackground: rgba(64, 200, 174, 0.5);
+--vscode-merge-currentContentBackground: rgba(64, 200, 174, 0.2);
+--vscode-merge-incomingHeaderBackground: rgba(64, 166, 255, 0.5);
+--vscode-merge-incomingContentBackground: rgba(64, 166, 255, 0.2);
+--vscode-merge-commonHeaderBackground: rgba(96, 96, 96, 0.4);
+--vscode-merge-commonContentBackground: rgba(96, 96, 96, 0.16);
+--vscode-editorOverviewRuler-currentContentForeground: rgba(64, 200, 174, 0.5);
+--vscode-editorOverviewRuler-incomingContentForeground: rgba(64, 166, 255, 0.5);
+--vscode-editorOverviewRuler-commonContentForeground: rgba(96, 96, 96, 0.4);
+--vscode-editorOverviewRuler-findMatchForeground: rgba(209, 134, 22, 0.49);
+--vscode-editorOverviewRuler-selectionHighlightForeground: rgba(160, 160, 160, 0.8);
+--vscode-minimap-findMatchHighlight: #d18616;
+--vscode-minimap-selectionOccurrenceHighlight: #676767;
+--vscode-minimap-selectionHighlight: #264f78;
+--vscode-minimap-errorHighlight: rgba(255, 18, 18, 0.7);
+--vscode-minimap-warningHighlight: #cca700;
+--vscode-minimap-foregroundOpacity: #000000;
+--vscode-minimapSlider-background: rgba(121, 121, 121, 0.2);
+--vscode-minimapSlider-hoverBackground: rgba(100, 100, 100, 0.35);
+--vscode-minimapSlider-activeBackground: rgba(191, 191, 191, 0.2);
+--vscode-problemsErrorIcon-foreground: #f14c4c;
+--vscode-problemsWarningIcon-foreground: #cca700;
+--vscode-problemsInfoIcon-foreground: #3794ff;
+--vscode-charts-foreground: #cccccc;
+--vscode-charts-lines: rgba(204, 204, 204, 0.5);
+--vscode-charts-red: #f14c4c;
+--vscode-charts-blue: #3794ff;
+--vscode-charts-yellow: #cca700;
+--vscode-charts-orange: #d18616;
+--vscode-charts-green: #89d185;
+--vscode-charts-purple: #b180d7;
+--vscode-editor-lineHighlightBorder: #282828;
+--vscode-editor-rangeHighlightBackground: rgba(255, 255, 255, 0.04);
+--vscode-editor-symbolHighlightBackground: rgba(234, 92, 0, 0.33);
+--vscode-editorCursor-foreground: #aeafad;
+--vscode-editorWhitespace-foreground: rgba(227, 228, 226, 0.16);
+--vscode-editorIndentGuide-background: #404040;
+--vscode-editorIndentGuide-activeBackground: #707070;
+--vscode-editorLineNumber-foreground: #858585;
+--vscode-editorActiveLineNumber-foreground: #c6c6c6;
+--vscode-editorLineNumber-activeForeground: #c6c6c6;
+--vscode-editorRuler-foreground: #5a5a5a;
+--vscode-editorCodeLens-foreground: #999999;
+--vscode-editorBracketMatch-background: rgba(0, 100, 0, 0.1);
+--vscode-editorBracketMatch-border: #888888;
+--vscode-editorOverviewRuler-border: rgba(127, 127, 127, 0.3);
+--vscode-editorGutter-background: #1e1e1e;
+--vscode-editorUnnecessaryCode-opacity: rgba(0, 0, 0, 0.67);
+--vscode-editorGhostText-foreground: rgba(255, 255, 255, 0.34);
+--vscode-editorOverviewRuler-rangeHighlightForeground: rgba(0, 122, 204, 0.6);
+--vscode-editorOverviewRuler-errorForeground: rgba(255, 18, 18, 0.7);
+--vscode-editorOverviewRuler-warningForeground: #cca700;
+--vscode-editorOverviewRuler-infoForeground: #3794ff;
+--vscode-editorBracketHighlight-foreground1: #ffd700;
+--vscode-editorBracketHighlight-foreground2: #da70d6;
+--vscode-editorBracketHighlight-foreground3: #179fff;
+--vscode-editorBracketHighlight-foreground4: rgba(0, 0, 0, 0);
+--vscode-editorBracketHighlight-foreground5: rgba(0, 0, 0, 0);
+--vscode-editorBracketHighlight-foreground6: rgba(0, 0, 0, 0);
+--vscode-editorBracketHighlight-unexpectedBracket-foreground: rgba(255, 18, 18, 0.8);
+--vscode-editorBracketPairGuide-background1: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-background2: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-background3: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-background4: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-background5: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-background6: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-activeBackground1: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-activeBackground2: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-activeBackground3: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-activeBackground4: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-activeBackground5: rgba(0, 0, 0, 0);
+--vscode-editorBracketPairGuide-activeBackground6: rgba(0, 0, 0, 0);
+--vscode-editorUnicodeHighlight-border: #bd9b03;
+--vscode-editorUnicodeHighlight-background: rgba(189, 155, 3, 0.15);
+--vscode-symbolIcon-arrayForeground: #cccccc;
+--vscode-symbolIcon-booleanForeground: #cccccc;
+--vscode-symbolIcon-classForeground: #ee9d28;
+--vscode-symbolIcon-colorForeground: #cccccc;
+--vscode-symbolIcon-constantForeground: #cccccc;
+--vscode-symbolIcon-constructorForeground: #b180d7;
+--vscode-symbolIcon-enumeratorForeground: #ee9d28;
+--vscode-symbolIcon-enumeratorMemberForeground: #75beff;
+--vscode-symbolIcon-eventForeground: #ee9d28;
+--vscode-symbolIcon-fieldForeground: #75beff;
+--vscode-symbolIcon-fileForeground: #cccccc;
+--vscode-symbolIcon-folderForeground: #cccccc;
+--vscode-symbolIcon-functionForeground: #b180d7;
+--vscode-symbolIcon-interfaceForeground: #75beff;
+--vscode-symbolIcon-keyForeground: #cccccc;
+--vscode-symbolIcon-keywordForeground: #cccccc;
+--vscode-symbolIcon-methodForeground: #b180d7;
+--vscode-symbolIcon-moduleForeground: #cccccc;
+--vscode-symbolIcon-namespaceForeground: #cccccc;
+--vscode-symbolIcon-nullForeground: #cccccc;
+--vscode-symbolIcon-numberForeground: #cccccc;
+--vscode-symbolIcon-objectForeground: #cccccc;
+--vscode-symbolIcon-operatorForeground: #cccccc;
+--vscode-symbolIcon-packageForeground: #cccccc;
+--vscode-symbolIcon-propertyForeground: #cccccc;
+--vscode-symbolIcon-referenceForeground: #cccccc;
+--vscode-symbolIcon-snippetForeground: #cccccc;
+--vscode-symbolIcon-stringForeground: #cccccc;
+--vscode-symbolIcon-structForeground: #cccccc;
+--vscode-symbolIcon-textForeground: #cccccc;
+--vscode-symbolIcon-typeParameterForeground: #cccccc;
+--vscode-symbolIcon-unitForeground: #cccccc;
+--vscode-symbolIcon-variableForeground: #75beff;
+--vscode-editorOverviewRuler-bracketMatchForeground: #a0a0a0;
+--vscode-editor-linkedEditingBackground: rgba(255, 0, 0, 0.3);
+--vscode-editor-wordHighlightBackground: rgba(87, 87, 87, 0.72);
+--vscode-editor-wordHighlightStrongBackground: rgba(0, 73, 114, 0.72);
+--vscode-editorOverviewRuler-wordHighlightForeground: rgba(160, 160, 160, 0.8);
+--vscode-editorOverviewRuler-wordHighlightStrongForeground: rgba(192, 160, 192, 0.8);
+--vscode-peekViewTitle-background: rgba(55, 148, 255, 0.1);
+--vscode-peekViewTitleLabel-foreground: #ffffff;
+--vscode-peekViewTitleDescription-foreground: rgba(204, 204, 204, 0.7);
+--vscode-peekView-border: #3794ff;
+--vscode-peekViewResult-background: #252526;
+--vscode-peekViewResult-lineForeground: #bbbbbb;
+--vscode-peekViewResult-fileForeground: #ffffff;
+--vscode-peekViewResult-selectionBackground: rgba(51, 153, 255, 0.2);
+--vscode-peekViewResult-selectionForeground: #ffffff;
+--vscode-peekViewEditor-background: #001f33;
+--vscode-peekViewEditorGutter-background: #001f33;
+--vscode-peekViewResult-matchHighlightBackground: rgba(234, 92, 0, 0.3);
+--vscode-peekViewEditor-matchHighlightBackground: rgba(255, 143, 0, 0.6);
+--vscode-editorMarkerNavigationError-background: #f14c4c;
+--vscode-editorMarkerNavigationError-headerBackground: rgba(241, 76, 76, 0.1);
+--vscode-editorMarkerNavigationWarning-background: #cca700;
+--vscode-editorMarkerNavigationWarning-headerBackground: rgba(204, 167, 0, 0.1);
+--vscode-editorMarkerNavigationInfo-background: #3794ff;
+--vscode-editorMarkerNavigationInfo-headerBackground: rgba(55, 148, 255, 0.1);
+--vscode-editorMarkerNavigation-background: #1e1e1e;
+--vscode-editorHoverWidget-highlightForeground: #2aaaff;
+--vscode-editorSuggestWidget-background: #252526;
+--vscode-editorSuggestWidget-border: #454545;
+--vscode-editorSuggestWidget-foreground: #d4d4d4;
+--vscode-editorSuggestWidget-selectedForeground: #ffffff;
+--vscode-editorSuggestWidget-selectedBackground: #04395e;
+--vscode-editorSuggestWidget-highlightForeground: #2aaaff;
+--vscode-editorSuggestWidget-focusHighlightForeground: #2aaaff;
+--vscode-editorSuggestWidgetStatus-foreground: rgba(212, 212, 212, 0.5);
+--vscode-editor-foldBackground: rgba(38, 79, 120, 0.3);
+--vscode-editorGutter-foldingControlForeground: #c5c5c5; }
+
+.mtk1 { color: #d4d4d4; }
+.mtk2 { color: #1e1e1e; }
+.mtk3 { color: #cc6666; }
+.mtk4 { color: #9cdcfe; }
+.mtk5 { color: #ce9178; }
+.mtk6 { color: #b5cea8; }
+.mtk7 { color: #608b4e; }
+.mtk8 { color: #569cd6; }
+.mtk9 { color: #dcdcdc; }
+.mtk10 { color: #808080; }
+.mtk11 { color: #f44747; }
+.mtk12 { color: #c586c0; }
+.mtk13 { color: #a79873; }
+.mtk14 { color: #dd6a6f; }
+.mtk15 { color: #5bb498; }
+.mtk16 { color: #909090; }
+.mtk17 { color: #778899; }
+.mtk18 { color: #ff00ff; }
+.mtk19 { color: #b46695; }
+.mtk20 { color: #ff0000; }
+.mtk21 { color: #4f76ac; }
+.mtk22 { color: #3dc9b0; }
+.mtk23 { color: #74b0df; }
+.mtk24 { color: #4864aa; }
+.mtki { font-style: italic; }
+.mtkb { font-weight: bold; }
+.mtku { text-decoration: underline; text-underline-position: under; }
+.mtks { text-decoration: line-through; }
+.mtks.mtku { text-decoration: underline line-through; text-underline-position: under; }</style><style type="text/css" media="screen">
+		.monaco-editor .codelens-decoration._ee1f61 { line-height: 16px; font-size: 12px; padding-right: 6px; font-feature-settings: var(--codelens-font-features_ee1f61) }
+		.monaco-editor .codelens-decoration._ee1f61 span.codicon { line-height: 16px; font-size: 12px; }
+		</style><script async="async" type="text/javascript" src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/typescript.js.download"></script><script async="async" type="text/javascript" src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/tsMode.js.download"></script></head><body cz-shortcut-listen="true"><div id="__next" data-reactroot=""><div class="Page__Outer-sc-90ozb8-0 dCjjJL"><header class="Header__Outer-sc-3azgmv-11 bxeWDY"><div class="Header__LogoArea-sc-3azgmv-8 eQyuRw"><a href="https://bigfrontend.dev/" class="Header__Logo-sc-3azgmv-10 WpACt">BFE<span class="Header__Domain-sc-3azgmv-9 jOEIuV">.dev</span></a><div class="Header__Right-sc-3azgmv-4 OuIai"><a href="https://www.buymeacoffee.com/BFEdev" class="button__A-sc-xwostj-0 eEdnlY"><button size="30" class="IconButton__InternalIconButton-sc-1v5qwsf-0 kXkFg"><svg width="884" height="1279" viewBox="0 0 884 1279" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M791.109 297.518l-.878-.516-2.03-.619a4.833 4.833 0 0 0 2.908 1.135zM803.896 388.891l-.98.275.98-.275zM791.484 297.377a1.773 1.773 0 0 1-.366-.087 1.42 1.42 0 0 0 0 .244.738.738 0 0 0 .366-.157z" fill="#0D0C22"></path><path d="M791.113 297.529h.131v-.082l-.131.082zM803.111 388.726l1.48-.843.551-.31.499-.533a8.447 8.447 0 0 0-2.53 1.686zM793.669 299.515l-1.446-1.377-.98-.533a4.077 4.077 0 0 0 2.426 1.91zM430.019 1186.18a7.55 7.55 0 0 0-2.943 2.27l.912-.58c.62-.57 1.497-1.24 2.031-1.69zM641.187 1144.63c0-1.3-.636-1.06-.482 3.58 0-.37.155-.75.224-1.11.086-.83.155-1.64.258-2.47zM619.284 1186.18a7.546 7.546 0 0 0-2.942 2.27l.912-.58c.619-.57 1.497-1.24 2.03-1.69zM281.304 1196.06a6.299 6.299 0 0 0-3.097-1.45c.929.45 1.858.9 2.477 1.24l.62.21zM247.841 1164.01a9.895 9.895 0 0 0-1.222-3.85c.474 1.23.87 2.5 1.187 3.78l.035.07z" fill="#0D0C22"></path><path d="M472.623 590.836c-45.941 19.667-98.077 41.966-165.647 41.966a313.577 313.577 0 0 1-83.623-11.528l46.733 479.806a80.166 80.166 0 0 0 25.593 52.38 80.18 80.18 0 0 0 54.313 21.19s66.262 3.44 88.373 3.44c23.796 0 95.151-3.44 95.151-3.44 20.12 0 39.503-7.57 54.303-21.2a80.149 80.149 0 0 0 25.587-52.37l50.053-530.204c-22.368-7.639-44.943-12.715-70.391-12.715-44.014-.017-79.477 15.142-120.445 32.675z" fill="#FD0"></path><path d="M78.689 386.132l.79.74.517.31a7.95 7.95 0 0 0-1.307-1.05z" fill="#0D0C22"></path><path d="M879.567 341.849l-7.037-35.497c-6.315-31.849-20.648-61.943-53.34-73.454-10.479-3.683-22.369-5.265-30.404-12.888-8.035-7.622-10.41-19.46-12.268-30.438-3.442-20.149-6.676-40.315-10.204-60.429-3.045-17.293-5.454-36.719-13.386-52.583-10.324-21.302-31.746-33.76-53.048-42.001a305.493 305.493 0 0 0-33.363-10.324C613.297 10.195 557.342 5.033 502.591 2.09a1376.266 1376.266 0 0 0-197.169 3.27c-48.797 4.439-100.193 9.807-146.564 26.687-16.948 6.177-34.413 13.593-47.3 26.687-15.813 16.088-20.975 40.969-9.43 61.031 8.208 14.247 22.111 24.313 36.857 30.972a298.948 298.948 0 0 0 59.844 19.478c57.297 12.664 116.642 17.636 175.178 19.753a1333.99 1333.99 0 0 0 194.433-6.35 1106.995 1106.995 0 0 0 47.817-6.314c18.738-2.874 30.765-27.376 25.242-44.445-6.608-20.406-24.365-28.321-44.444-25.241-2.96.464-5.902.894-8.862 1.324l-2.133.31c-6.803.861-13.605 1.663-20.407 2.409a1083.055 1083.055 0 0 1-42.259 3.717c-31.626 2.202-63.337 3.217-95.031 3.269-31.144 0-62.305-.878-93.38-2.925a1187.382 1187.382 0 0 1-42.431-3.545 1019.94 1019.94 0 0 1-19.219-2.168l-6.092-.774-1.324-.189-6.315-.912c-12.905-1.945-25.81-4.181-38.577-6.883a5.8 5.8 0 0 1 0-11.322h.241c11.064-2.357 22.213-4.37 33.397-6.125 3.729-.585 7.468-1.159 11.219-1.72h.103c7.003-.465 14.041-1.722 21.009-2.547A1336.183 1336.183 0 0 1 469.538 73.1c29.577.86 59.138 2.599 88.578 5.593a979.44 979.44 0 0 1 18.927 2.116c2.409.293 4.835.636 7.262.93l4.886.705a678.058 678.058 0 0 1 42.517 7.725c20.889 4.543 47.714 6.022 57.005 28.907 2.96 7.261 4.302 15.331 5.936 22.953l2.082 9.722c.055.174.095.353.121.533 4.921 22.942 9.848 45.884 14.78 68.826a12.608 12.608 0 0 1-2.006 9.871 12.612 12.612 0 0 1-8.593 5.254h-.138l-3.011.413-2.976.395c-9.43 1.228-18.87 2.375-28.322 3.442a1829.308 1829.308 0 0 1-55.938 5.506 1957.204 1957.204 0 0 1-111.55 6.074c-18.984.504-37.963.74-56.936.705a1975.736 1975.736 0 0 1-225.989-13.146c-8.122-.963-16.243-1.996-24.365-3.045 6.298.809-4.577-.62-6.779-.929a1447.245 1447.245 0 0 1-15.486-2.254c-17.327-2.599-34.55-5.799-51.843-8.604-20.906-3.441-40.9-1.72-59.81 8.604a86.994 86.994 0 0 0-36.012 37.338c-8.156 16.862-10.582 35.221-14.23 53.34C4 342.193-1.678 361.688.473 380.288 5.1 420.431 33.165 453.054 73.53 460.35c37.975 6.882 76.156 12.457 114.44 17.206a2114.804 2114.804 0 0 0 489.988 2.822 25.814 25.814 0 0 1 21.003 7.339 25.806 25.806 0 0 1 7.491 20.948l-3.82 37.132-23.091 225.077a178840.62 178840.62 0 0 1-31.126 302.866c-2.203 21.84-2.512 44.36-6.659 65.94-6.539 33.93-29.509 54.77-63.027 62.39a439.172 439.172 0 0 1-93.569 10.94c-34.912.19-69.806-1.36-104.718-1.17-37.27.21-82.918-3.23-111.687-30.97-25.277-24.36-28.77-62.51-32.211-95.5-4.588-43.67-9.136-87.331-13.645-130.989l-25.293-242.766-16.363-157.077c-.276-2.598-.551-5.162-.809-7.778-1.962-18.737-15.228-37.079-36.134-36.133-17.894.791-38.232 16.002-36.133 36.133l12.13 116.454 25.087 240.89a378681.11 378681.11 0 0 1 21.388 205.306c1.377 13.11 2.667 26.26 4.112 39.37 7.864 71.65 62.58 110.26 130.339 121.13 39.575 6.37 80.113 7.68 120.273 8.33 51.482.83 103.48 2.81 154.118-6.52 75.038-13.77 131.337-63.87 139.372-141.59 2.295-22.44 4.589-44.88 6.883-67.33 7.628-74.241 15.245-148.487 22.85-222.739l24.881-242.61 11.408-111.188a25.812 25.812 0 0 1 20.785-22.696c21.456-4.181 41.967-11.322 57.229-27.651 24.295-25.998 29.13-59.895 20.544-94.067zM72.43 365.835c.327-.155-.275 2.649-.533 3.957-.052-1.979.051-3.734.533-3.957zm2.082 16.105c.172-.121.688.568 1.222 1.394-.809-.758-1.325-1.325-1.24-1.394h.018zm2.048 2.701c.74 1.256 1.135 2.048 0 0zm4.112 3.338h.103c0 .121.19.241.258.362a2.666 2.666 0 0 0-.378-.362h.017zm720.124-4.99c-7.708 7.33-19.323 10.737-30.8 12.441-128.704 19.099-259.283 28.769-389.399 24.502-93.121-3.183-185.261-13.525-277.453-26.55-9.034-1.273-18.824-2.925-25.036-9.584-11.7-12.561-5.953-37.854-2.908-53.03 2.788-13.903 8.122-32.434 24.657-34.413 25.81-3.028 55.783 7.863 81.318 11.735a1539.798 1539.798 0 0 0 92.57 11.27c132.18 12.045 266.58 10.169 398.175-7.45a1661.346 1661.346 0 0 0 71.699-11.236c21.216-3.803 44.737-10.943 57.556 11.029 8.792 14.97 9.962 34.998 8.603 51.912a28.942 28.942 0 0 1-8.999 19.374h.017z" fill="currentColor"></path></svg></button></a><button size="30" class="IconButton__InternalIconButton-sc-1v5qwsf-0 kXkFg"><span class="LanguageSwitcher__Label-sc-mx7c6b-0 iUXpag">EN</span></button><button font-weight="500" class="Button-sc-fl0zqr-0 iZATRI" style="margin-left: 0px; padding-inline: 5px;"><div class="Avatar__Outer-sc-144l7oa-1 hHAfTT"><div class="Avatar__Inner-sc-144l7oa-0 CniRh"></div></div><span inert="true" style="line-height: 0;"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" color="var(--color-text-sub)" height="20" width="20" xmlns="http://www.w3.org/2000/svg" style="color: var(--color-text-sub);"><path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path></svg></span></button></div></div><div class="Header__Contents-sc-3azgmv-6 kOfJcc"><nav class="Header__Left-sc-3azgmv-7 hkmwON"><button font-weight="600" class="Button-sc-fl0zqr-0 giUvRH">Practice<!-- -->&nbsp;<div inert="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" color="var(--color-theme-primary)" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style="color: var(--color-theme-primary);"><title>new</title><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"></path></svg></div><span inert="true" style="line-height:0"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" color="var(--color-text-sub)" style="color:var(--color-text-sub)" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path></svg></span></button><button font-weight="600" class="Button-sc-fl0zqr-0 giUvRH">Explore<!-- -->&nbsp;<span inert="true" style="line-height:0"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" color="var(--color-text-sub)" style="color:var(--color-text-sub)" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path></svg></span></button></nav><div class="Header__Right-sc-3azgmv-4 OuIai"><a href="https://www.greatfrontend.com/?fpr=bfe" class="HeaderBanner__Outer-sc-yrn09m-0 biNvHm" style="color: rgb(148, 140, 249);"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M90.1 187c0-33.4 17.1-62.8 43.5-78.9 2.8-1.7 1.6-6-1.7-6-38.2 0-68.5 30.4-74.1 69.8-5.6.9-9.9 7.3-9.9 14.9 0 8 4.7 14.3 10.8 14.8 6.7 33.8 33.8 55.4 61.2 64.5 4.3.9 7.1-4.5 3.8-7.5-19.6-17.7-33.6-44.3-33.6-71.6z"></path><path d="M450.2 102.8c-1-2.7-2.1-5.2-3.2-7.7-6-13.4-13.4-24.2-21.7-32.2-10.5-9.7-21.4-14.9-34.8-14.9-13.5 0-21.5 5.2-25.8 7.8-43.1 25.9-112.3 46-154 46s-39.4.2-39.4.2c-31.6 14-54.8 46.9-54.8 85 0 34.2 17.8 64.2 44.4 80 12.1 10.1 23.6 8.8 21.1 22.2-2.5 13.4-22.5 97.5-25 115s-2.9 27.5 4 36c7 8.5 49.5 23.8 68 23.8s13.8-8.7 13.8-43.8-9.3-131.7 16.5-131.7c48.3 0 73.5 17.3 111.3 31.7 9 3.4 14.1 4.7 20.1 4.7 6 0 18.7-1.9 34.7-18.2 9.2-9.4 15.7-18.8 21.7-32.2 1.1-2.6 2.2-5.2 3.3-8 8.9-23.2 13.7-51.9 13.7-81.9-.1-29.8-4.9-58.6-13.9-81.8zm-26.6 157c-6.4 15.7-17.6 28.2-26.9 28.2-9.3 0-17.8-12.5-24.2-28.2-7.5-18.3-12.3-45-12.3-74.7 0-29.8 4.8-56.6 12.3-74.9 6.4-15.6 14.9-25 24.1-25 9.3 0 20.3 9.5 26.8 25 7.6 18.3 14.5 45.1 14.5 74.9.1 29.7-6.8 56.4-14.3 74.7z"></path></svg>GreatFrontEnd.com - prepare front end job interviews!</a><a href="https://www.buymeacoffee.com/BFEdev" class="button__A-sc-xwostj-0 eEdnlY"><button size="30" class="IconButton__InternalIconButton-sc-1v5qwsf-0 kXkFg"><svg width="884" height="1279" viewBox="0 0 884 1279" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M791.109 297.518l-.878-.516-2.03-.619a4.833 4.833 0 0 0 2.908 1.135zM803.896 388.891l-.98.275.98-.275zM791.484 297.377a1.773 1.773 0 0 1-.366-.087 1.42 1.42 0 0 0 0 .244.738.738 0 0 0 .366-.157z" fill="#0D0C22"></path><path d="M791.113 297.529h.131v-.082l-.131.082zM803.111 388.726l1.48-.843.551-.31.499-.533a8.447 8.447 0 0 0-2.53 1.686zM793.669 299.515l-1.446-1.377-.98-.533a4.077 4.077 0 0 0 2.426 1.91zM430.019 1186.18a7.55 7.55 0 0 0-2.943 2.27l.912-.58c.62-.57 1.497-1.24 2.031-1.69zM641.187 1144.63c0-1.3-.636-1.06-.482 3.58 0-.37.155-.75.224-1.11.086-.83.155-1.64.258-2.47zM619.284 1186.18a7.546 7.546 0 0 0-2.942 2.27l.912-.58c.619-.57 1.497-1.24 2.03-1.69zM281.304 1196.06a6.299 6.299 0 0 0-3.097-1.45c.929.45 1.858.9 2.477 1.24l.62.21zM247.841 1164.01a9.895 9.895 0 0 0-1.222-3.85c.474 1.23.87 2.5 1.187 3.78l.035.07z" fill="#0D0C22"></path><path d="M472.623 590.836c-45.941 19.667-98.077 41.966-165.647 41.966a313.577 313.577 0 0 1-83.623-11.528l46.733 479.806a80.166 80.166 0 0 0 25.593 52.38 80.18 80.18 0 0 0 54.313 21.19s66.262 3.44 88.373 3.44c23.796 0 95.151-3.44 95.151-3.44 20.12 0 39.503-7.57 54.303-21.2a80.149 80.149 0 0 0 25.587-52.37l50.053-530.204c-22.368-7.639-44.943-12.715-70.391-12.715-44.014-.017-79.477 15.142-120.445 32.675z" fill="#FD0"></path><path d="M78.689 386.132l.79.74.517.31a7.95 7.95 0 0 0-1.307-1.05z" fill="#0D0C22"></path><path d="M879.567 341.849l-7.037-35.497c-6.315-31.849-20.648-61.943-53.34-73.454-10.479-3.683-22.369-5.265-30.404-12.888-8.035-7.622-10.41-19.46-12.268-30.438-3.442-20.149-6.676-40.315-10.204-60.429-3.045-17.293-5.454-36.719-13.386-52.583-10.324-21.302-31.746-33.76-53.048-42.001a305.493 305.493 0 0 0-33.363-10.324C613.297 10.195 557.342 5.033 502.591 2.09a1376.266 1376.266 0 0 0-197.169 3.27c-48.797 4.439-100.193 9.807-146.564 26.687-16.948 6.177-34.413 13.593-47.3 26.687-15.813 16.088-20.975 40.969-9.43 61.031 8.208 14.247 22.111 24.313 36.857 30.972a298.948 298.948 0 0 0 59.844 19.478c57.297 12.664 116.642 17.636 175.178 19.753a1333.99 1333.99 0 0 0 194.433-6.35 1106.995 1106.995 0 0 0 47.817-6.314c18.738-2.874 30.765-27.376 25.242-44.445-6.608-20.406-24.365-28.321-44.444-25.241-2.96.464-5.902.894-8.862 1.324l-2.133.31c-6.803.861-13.605 1.663-20.407 2.409a1083.055 1083.055 0 0 1-42.259 3.717c-31.626 2.202-63.337 3.217-95.031 3.269-31.144 0-62.305-.878-93.38-2.925a1187.382 1187.382 0 0 1-42.431-3.545 1019.94 1019.94 0 0 1-19.219-2.168l-6.092-.774-1.324-.189-6.315-.912c-12.905-1.945-25.81-4.181-38.577-6.883a5.8 5.8 0 0 1 0-11.322h.241c11.064-2.357 22.213-4.37 33.397-6.125 3.729-.585 7.468-1.159 11.219-1.72h.103c7.003-.465 14.041-1.722 21.009-2.547A1336.183 1336.183 0 0 1 469.538 73.1c29.577.86 59.138 2.599 88.578 5.593a979.44 979.44 0 0 1 18.927 2.116c2.409.293 4.835.636 7.262.93l4.886.705a678.058 678.058 0 0 1 42.517 7.725c20.889 4.543 47.714 6.022 57.005 28.907 2.96 7.261 4.302 15.331 5.936 22.953l2.082 9.722c.055.174.095.353.121.533 4.921 22.942 9.848 45.884 14.78 68.826a12.608 12.608 0 0 1-2.006 9.871 12.612 12.612 0 0 1-8.593 5.254h-.138l-3.011.413-2.976.395c-9.43 1.228-18.87 2.375-28.322 3.442a1829.308 1829.308 0 0 1-55.938 5.506 1957.204 1957.204 0 0 1-111.55 6.074c-18.984.504-37.963.74-56.936.705a1975.736 1975.736 0 0 1-225.989-13.146c-8.122-.963-16.243-1.996-24.365-3.045 6.298.809-4.577-.62-6.779-.929a1447.245 1447.245 0 0 1-15.486-2.254c-17.327-2.599-34.55-5.799-51.843-8.604-20.906-3.441-40.9-1.72-59.81 8.604a86.994 86.994 0 0 0-36.012 37.338c-8.156 16.862-10.582 35.221-14.23 53.34C4 342.193-1.678 361.688.473 380.288 5.1 420.431 33.165 453.054 73.53 460.35c37.975 6.882 76.156 12.457 114.44 17.206a2114.804 2114.804 0 0 0 489.988 2.822 25.814 25.814 0 0 1 21.003 7.339 25.806 25.806 0 0 1 7.491 20.948l-3.82 37.132-23.091 225.077a178840.62 178840.62 0 0 1-31.126 302.866c-2.203 21.84-2.512 44.36-6.659 65.94-6.539 33.93-29.509 54.77-63.027 62.39a439.172 439.172 0 0 1-93.569 10.94c-34.912.19-69.806-1.36-104.718-1.17-37.27.21-82.918-3.23-111.687-30.97-25.277-24.36-28.77-62.51-32.211-95.5-4.588-43.67-9.136-87.331-13.645-130.989l-25.293-242.766-16.363-157.077c-.276-2.598-.551-5.162-.809-7.778-1.962-18.737-15.228-37.079-36.134-36.133-17.894.791-38.232 16.002-36.133 36.133l12.13 116.454 25.087 240.89a378681.11 378681.11 0 0 1 21.388 205.306c1.377 13.11 2.667 26.26 4.112 39.37 7.864 71.65 62.58 110.26 130.339 121.13 39.575 6.37 80.113 7.68 120.273 8.33 51.482.83 103.48 2.81 154.118-6.52 75.038-13.77 131.337-63.87 139.372-141.59 2.295-22.44 4.589-44.88 6.883-67.33 7.628-74.241 15.245-148.487 22.85-222.739l24.881-242.61 11.408-111.188a25.812 25.812 0 0 1 20.785-22.696c21.456-4.181 41.967-11.322 57.229-27.651 24.295-25.998 29.13-59.895 20.544-94.067zM72.43 365.835c.327-.155-.275 2.649-.533 3.957-.052-1.979.051-3.734.533-3.957zm2.082 16.105c.172-.121.688.568 1.222 1.394-.809-.758-1.325-1.325-1.24-1.394h.018zm2.048 2.701c.74 1.256 1.135 2.048 0 0zm4.112 3.338h.103c0 .121.19.241.258.362a2.666 2.666 0 0 0-.378-.362h.017zm720.124-4.99c-7.708 7.33-19.323 10.737-30.8 12.441-128.704 19.099-259.283 28.769-389.399 24.502-93.121-3.183-185.261-13.525-277.453-26.55-9.034-1.273-18.824-2.925-25.036-9.584-11.7-12.561-5.953-37.854-2.908-53.03 2.788-13.903 8.122-32.434 24.657-34.413 25.81-3.028 55.783 7.863 81.318 11.735a1539.798 1539.798 0 0 0 92.57 11.27c132.18 12.045 266.58 10.169 398.175-7.45a1661.346 1661.346 0 0 0 71.699-11.236c21.216-3.803 44.737-10.943 57.556 11.029 8.792 14.97 9.962 34.998 8.603 51.912a28.942 28.942 0 0 1-8.999 19.374h.017z" fill="currentColor"></path></svg></button></a><button size="30" class="IconButton__InternalIconButton-sc-1v5qwsf-0 kXkFg"><span class="LanguageSwitcher__Label-sc-mx7c6b-0 iUXpag">EN</span></button><button font-weight="500" class="Button-sc-fl0zqr-0 iZATRI" style="margin-left: 0px; padding-inline: 5px;"><div class="Avatar__Outer-sc-144l7oa-1 hHAfTT"><div class="Avatar__Inner-sc-144l7oa-0 CniRh"></div></div><span inert="true" style="line-height: 0;"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" color="var(--color-text-sub)" height="20" width="20" xmlns="http://www.w3.org/2000/svg" style="color: var(--color-text-sub);"><path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path></svg></span></button></div></div></header><main class="Body__Outer-sc-1xazzis-0 jQjVnI"><div style="width:600px" class="permalink__Left-sc-7lrru3-9 gybrGb"><div class="Breadcrum__Outer-sc-qlbgba-0 iTLVdb"><a href="https://bigfrontend.dev/" class="Breadcrum__Item-sc-qlbgba-1 kQwnxD"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1.6rem" width="1.6rem" xmlns="http://www.w3.org/2000/svg"><path d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z"></path></svg></a><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" color="var(--color-text-sub)" style="color:var(--color-text-sub);flex-shrink:0" height="1.5rem" width="1.5rem" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg><a href="https://bigfrontend.dev/react" class="Breadcrum__Item-sc-qlbgba-1 kQwnxD">React Coding Questions</a><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" color="var(--color-text-sub)" style="color:var(--color-text-sub);flex-shrink:0" height="1.5rem" width="1.5rem" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"></path></svg><a class="Breadcrum__Item-sc-qlbgba-1 kQwnxC">2. useTimeout()</a></div><div class="MinimizeButton__SeparatorDragHandle-sc-1cznjwm-0 dpgJFi"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 16V12L21 17L16 22V18H4V16H16ZM8 2V5.999L20 6V8H8V12L3 7L8 2Z"></path></svg></div><div class="permalink__Info-sc-7lrru3-10 hDnxxO"><h1 class="permalink__H1-sc-7lrru3-11 loItZL">2. useTimeout()</h1><div class="Row-sc-4c0e12-0 hvrTOL"><a href="https://bigfrontend.dev/react?tags=React" class="Tag-sc-1klb2b4-0 HtsGB">React</a><a href="https://bigfrontend.dev/react?tags=Hooks" class="Tag-sc-1klb2b4-0 HtsGB">Hooks</a><button title="Suggest new company" size="30" class="IconButton__InternalIconButton-sc-1v5qwsf-0 cAbYH"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="var(--color-text-sub)" style="color:var(--color-text-sub)" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M363 277h-86v86h-42v-86h-86v-42h86v-86h42v86h86v42z"></path><path d="M256 90c44.3 0 86 17.3 117.4 48.6C404.7 170 422 211.7 422 256s-17.3 86-48.6 117.4C342 404.7 300.3 422 256 422c-44.3 0-86-17.3-117.4-48.6C107.3 342 90 300.3 90 256c0-44.3 17.3-86 48.6-117.4C170 107.3 211.7 90 256 90m0-42C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48z"></path></svg></button></div><div class="Actions-sc-nqr3vm-0 cDFDPV"><div class="Favorite__Likeit-sc-fbj3zc-0 jguNgc"><button color="var(--color-text-sub)" role="checkbox" aria-checked="false" aria-label="Like button" class="Button-sc-fl0zqr-0 gQeGPZ"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M14.5998 8.00033H21C22.1046 8.00033 23 8.89576 23 10.0003V12.1047C23 12.3659 22.9488 12.6246 22.8494 12.8662L19.755 20.3811C19.6007 20.7558 19.2355 21.0003 18.8303 21.0003H2C1.44772 21.0003 1 20.5526 1 20.0003V10.0003C1 9.44804 1.44772 9.00033 2 9.00033H5.48184C5.80677 9.00033 6.11143 8.84246 6.29881 8.57701L11.7522 0.851355C11.8947 0.649486 12.1633 0.581978 12.3843 0.692483L14.1984 1.59951C15.25 2.12534 15.7931 3.31292 15.5031 4.45235L14.5998 8.00033ZM7 10.5878V19.0003H18.1606L21 12.1047V10.0003H14.5998C13.2951 10.0003 12.3398 8.77128 12.6616 7.50691L13.5649 3.95894C13.6229 3.73105 13.5143 3.49353 13.3039 3.38837L12.6428 3.0578L7.93275 9.73038C7.68285 10.0844 7.36341 10.3746 7 10.5878ZM5 11.0003H3V19.0003H5V11.0003Z"></path></svg>&nbsp;51</button></div><button font-size="var(--font-size-caption)" color="var(--color-text-sub)" class="Button-sc-fl0zqr-0 JULPB">Add to my list<!-- --> &nbsp;<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path d="M14 10H3v2h11v-2zm0-4H3v2h11V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM3 16h7v-2H3v2z"></path></svg>&nbsp;</button><div class="Share-sc-qq9jip-0 imWdQj">Share<button aria-label="twitter" class="react-share__ShareButton" style="background-color:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg></button><button aria-label="facebook" class="react-share__ShareButton" style="background-color:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer"><svg viewBox="0 0 64 64" width="24" height="24"><circle cx="32" cy="32" r="31" fill="#3b5998"></circle><path d="M34.1,47V33.3h4.6l0.7-5.3h-5.3v-3.4c0-1.5,0.4-2.6,2.6-2.6l2.8,0v-4.8c-0.5-0.1-2.2-0.2-4.1-0.2 c-4.1,0-6.9,2.5-6.9,7V28H24v5.3h4.6V47H34.1z" fill="white"></path></svg></button></div></div><div class="UI__BelowTitle-sc-hjyhbh-2 fuOnkO"><div class="Stats__StatsBlock-sc-e7a4p9-0 iWyTZg"><p style="font-size:var(--font-size-caption);margin:1rem 0 1.5rem" class="Text__P-sc-agnsa7-0 bnHIQX">&nbsp;&nbsp;<!-- -->5641 accepted / 27050 tried</p></div><div class="row" style="min-height: 125px; width: 300px; float: unset; margin: 1rem 0px;"><script async="" type="text/javascript" id="_carbonads_js" src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/carbon.js.download"></script></div></div><div class="MarkdownView-sc-c8iam-0 itZVme"><p>Create a hook to easily use <code>setTimeout(callback, delay)</code>. </p>
+<ol>
+<li>reset the timer if delay changes</li>
+<li>DO NOT reset the timer if only callback changes</li>
+</ol>
+</div><div style="padding:3rem 0 0 0;overflow:auto"><div class="PrevNext__Outer-sc-12hwnki-0 htVAyF"><a href="https://bigfrontend.dev/react/The-React-Counter"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M217.9 256L345 129c9.4-9.4 9.4-24.6 0-33.9-9.4-9.4-24.6-9.3-34 0L167 239c-9.1 9.1-9.3 23.7-.7 33.1L310.9 417c4.7 4.7 10.9 7 17 7s12.3-2.3 17-7c9.4-9.4 9.4-24.6 0-33.9L217.9 256z"></path></svg>prev</a><a href="https://bigfrontend.dev/react/useIsFirstRender">next<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M294.1 256L167 129c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.3 34 0L345 239c9.1 9.1 9.3 23.7.7 33.1L201.1 417c-4.7 4.7-10.9 7-17 7s-12.3-2.3-17-7c-9.4-9.4-9.4-24.6 0-33.9l127-127.1z"></path></svg></a></div></div></div></div><div class="permalink__Judge-sc-7lrru3-12 ldhOaz"><div class="UI__EditorHeader-sc-hjyhbh-0 iNAMuo"><button disabled="" class="EditorLangButton__Outer-sc-o2c9y3-0 hrmSAt"><b>TypeScript</b></button><div style="flex-shrink:0" class="Row-sc-4c0e12-0 eQUfAM"><a href="https://bigfrontend.dev/react/usetimeout/aisolution" size="35" class="IconButton__InternalIconButton-sc-1v5qwsf-0 inkLnp"><svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24" color="#3ad913" style="color:#3ad913" height="18" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"></path></svg></a></div><div style="flex-shrink:0" class="Row-sc-4c0e12-0 eQUfAM"><a href="https://bigfrontend.dev/react/usetimeout/solution" size="35" class="IconButton__InternalIconButton-sc-1v5qwsf-0 inkLnp"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" color="currentcolor" style="color:currentcolor" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M688 264c0-4.4-3.6-8-8-8H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h384c4.4 0 8-3.6 8-8v-48zm-8 136H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h384c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8zM480 544H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h184c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8zm-48 308H208V148h560v344c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V108c0-17.7-14.3-32-32-32H168c-17.7 0-32 14.3-32 32v784c0 17.7 14.3 32 32 32h264c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm356.8-74.4c29-26.3 47.2-64.3 47.2-106.6 0-79.5-64.5-144-144-144s-144 64.5-144 144c0 42.3 18.2 80.3 47.2 106.6-57 32.5-96.2 92.7-99.2 162.1-.2 4.5 3.5 8.3 8 8.3h48.1c4.2 0 7.7-3.3 8-7.6C564 871.2 621.7 816 692 816s128 55.2 131.9 124.4c.2 4.2 3.7 7.6 8 7.6H880c4.6 0 8.2-3.8 8-8.3-2.9-69.5-42.2-129.6-99.2-162.1zM692 591c44.2 0 80 35.8 80 80s-35.8 80-80 80-80-35.8-80-80 35.8-80 80-80z"></path></svg></a></div><div style="flex-shrink:0" class="Row-sc-4c0e12-0 eQUfAM"><a href="https://bigfrontend.dev/react/usetimeout/watch" size="35" class="IconButton__InternalIconButton-sc-1v5qwsf-0 inkLnp"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" color="var(--color-theme-primary)" style="color:var(--color-theme-primary)" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z"></path></svg></a>(2)</div><div style="flex-shrink:0" class="Row-sc-4c0e12-0 eQUfAM"><a href="https://bigfrontend.dev/react/usetimeout/discuss" size="35" class="IconButton__InternalIconButton-sc-1v5qwsf-0 inkLnp"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 18v3.766l1.515-.909L11.277 18H16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h1zM4 8h12v8h-5.277L7 18.234V16H4V8z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2h12c1.103 0 2 .897 2 2v8c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2z"></path></svg></a>(109)</div><button title="Last Submit" size="35" class="IconButton__InternalIconButton-sc-1v5qwsf-0 inkLnp"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M190.4 354.1L91.9 256l98.4-98.1-30-29.9L32 256l128.4 128 30-29.9zm131.2 0L420 256l-98.4-98.1 30-29.9L480 256 351.6 384l-30-29.9z"></path></svg></button><button title="Reset" size="35" class="IconButton__InternalIconButton-sc-1v5qwsf-0 inkLnp"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M256 388c-72.597 0-132-59.405-132-132 0-72.601 59.403-132 132-132 36.3 0 69.299 15.4 92.406 39.601L278 234h154V80l-51.698 51.702C348.406 99.798 304.406 80 256 80c-96.797 0-176 79.203-176 176s78.094 176 176 176c81.045 0 148.287-54.134 169.401-128H378.85c-18.745 49.561-67.138 84-122.85 84z"></path></svg></button><button size="35" class="IconButton__InternalIconButton-sc-1v5qwsf-0 inkLnp ScreenRecorder__GlowingButton-sc-1kws80b-0 gtUFMJ"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1.6rem" width="1.6rem" xmlns="http://www.w3.org/2000/svg"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path><path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path></svg></button><div class="EditorTimer__Outer-sc-jlobn-0 hfzVTN"><span>09:01</span></div></div><div class="permalink__Editor-sc-7lrru3-13 cRghQF"><div style="width: 100%; height: 100%; --codelens-font-features_ee1f61: &quot;liga&quot; off, &quot;calt&quot; off; --code-editorInlayHintsFontFamily: Consolas, &#39;Courier New&#39;, monospace;" data-keybinding-context="1" data-mode-id="typescript"><div class="monaco-editor no-user-select  showUnused showDeprecated vs-dark" role="code" data-uri="file:///foo.tsx" style="width: 700px; height: 459px;"><div data-mprt="3" class="overflow-guard" style="width: 700px; height: 459px;"><div class="margin" role="presentation" aria-hidden="true" style="position: absolute; transform: translate3d(0px, 0px, 0px); contain: strict; top: 0px; height: 824px; width: 64px;"><div class="glyph-margin" style="left: 0px; width: 0px; height: 824px;"></div><div class="margin-view-zones" role="presentation" aria-hidden="true" style="position: absolute;"></div><div class="margin-view-overlays" role="presentation" aria-hidden="true" style="position: absolute; width: 64px; font-family: Consolas, &quot;Courier New&quot;, monospace; font-weight: normal; font-size: 14px; font-feature-settings: &quot;liga&quot; 0, &quot;calt&quot; 0; line-height: 19px; letter-spacing: 0px; height: 976px;"><div style="position:absolute;top:80px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">1</div></div><div style="position:absolute;top:99px;width:100%;height:19px;"><div class="cldr codicon codicon-folding-expanded" style="left:38px;width:26px;"></div><div class="line-numbers" style="left:0px;width:38px;">2</div></div><div style="position:absolute;top:118px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">3</div></div><div style="position:absolute;top:289px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">12</div></div><div style="position:absolute;top:308px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">13</div></div><div style="position:absolute;top:327px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">14</div></div><div style="position:absolute;top:346px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">15</div></div><div style="position:absolute;top:365px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">16</div></div><div style="position:absolute;top:384px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">17</div></div><div style="position:absolute;top:403px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">18</div></div><div style="position:absolute;top:422px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">19</div></div><div style="position:absolute;top:441px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">20</div></div><div style="position:absolute;top:137px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">4</div></div><div style="position:absolute;top:156px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">5</div></div><div style="position:absolute;top:175px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">6</div></div><div style="position:absolute;top:194px;width:100%;height:19px;"><div class="cldr codicon codicon-folding-expanded" style="left:38px;width:26px;"></div><div class="line-numbers" style="left:0px;width:38px;">7</div></div><div style="position:absolute;top:213px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">8</div></div><div style="position:absolute;top:270px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">11</div></div><div style="position:absolute;top:232px;width:100%;height:19px;"><div class="line-numbers" style="left:0px;width:38px;">9</div></div><div style="position:absolute;top:251px;width:100%;height:19px;"><div class="current-line current-line-margin-both" style="width:64px; height:19px;"></div><div class="active-line-number line-numbers" style="left:0px;width:38px;">10</div></div></div></div><div class="monaco-scrollable-element editor-scrollable vs-dark" role="presentation" data-mprt="5" style="position: absolute; overflow: hidden; left: 64px; width: 636px; height: 459px;"><div class="lines-content monaco-editor-background" style="position: absolute; overflow: hidden; width: 1e+06px; height: 1e+06px; transform: translate3d(0px, 0px, 0px); contain: strict; top: 0px; left: 0px;"><div class="view-overlays" role="presentation" aria-hidden="true" style="position: absolute; height: 0px; width: 636px;"><div style="position:absolute;top:80px;width:100%;height:19px;"></div><div style="position:absolute;top:99px;width:100%;height:19px;"></div><div style="position:absolute;top:118px;width:100%;height:19px;"><div class="core-guide core-guide-indent vertical" style="left:0px;height:19px;width:7.69921875px"></div></div><div style="position: absolute; top: 289px; width: 100%; height: 19px;"></div><div style="position: absolute; top: 308px; width: 100%; height: 19px;"></div><div style="position: absolute; top: 327px; width: 100%; height: 19px;"></div><div style="position: absolute; top: 346px; width: 100%; height: 19px;"></div><div style="position: absolute; top: 365px; width: 100%; height: 19px;"></div><div style="position: absolute; top: 384px; width: 100%; height: 19px;"></div><div style="position: absolute; top: 403px; width: 100%; height: 19px;"></div><div style="position: absolute; top: 422px; width: 100%; height: 19px;"></div><div style="position: absolute; top: 441px; width: 100%; height: 19px;"></div><div style="position:absolute;top:137px;width:100%;height:19px;"><div class="core-guide core-guide-indent vertical" style="left:0px;height:19px;width:7.69921875px"></div></div><div style="position:absolute;top:156px;width:100%;height:19px;"><div class="core-guide core-guide-indent vertical" style="left:0px;height:19px;width:7.69921875px"></div></div><div style="position:absolute;top:175px;width:100%;height:19px;"><div class="core-guide core-guide-indent vertical" style="left:0px;height:19px;width:7.69921875px"></div></div><div style="position:absolute;top:194px;width:100%;height:19px;"><div class="core-guide core-guide-indent vertical" style="left:0px;height:19px;width:7.69921875px"></div></div><div style="position:absolute;top:213px;width:100%;height:19px;"><div class="core-guide core-guide-indent vertical" style="left:0px;height:19px;width:7.69921875px"></div><div class="core-guide core-guide-indent-active vertical" style="left:15.3984375px;height:19px;width:7.69921875px"></div></div><div style="position:absolute;top:270px;width:100%;height:19px;"><div class="core-guide core-guide-indent vertical" style="left:0px;height:19px;width:7.69921875px"></div></div><div style="position:absolute;top:232px;width:100%;height:19px;"><div class="core-guide core-guide-indent vertical" style="left:0px;height:19px;width:7.69921875px"></div><div class="core-guide core-guide-indent-active vertical" style="left:15.3984375px;height:19px;width:7.69921875px"></div></div><div style="position:absolute;top:251px;width:100%;height:19px;"><div class="current-line" style="width:636px; height:19px;"></div><div class="core-guide core-guide-indent vertical" style="left:0px;height:19px;width:7.69921875px"></div><div class="core-guide core-guide-indent-active vertical" style="left:15.3984375px;height:19px;width:7.69921875px"></div></div></div><div role="presentation" aria-hidden="true" class="view-rulers"></div><div role="presentation" aria-hidden="true" class="blockDecorations-container"></div><div class="view-zones" role="presentation" aria-hidden="true" style="position: absolute;"></div><div class="view-lines monaco-mouse-cursor-text" role="presentation" aria-hidden="true" data-mprt="7" style="position: absolute; font-family: Consolas, &quot;Courier New&quot;, monospace; font-weight: normal; font-size: 14px; font-feature-settings: &quot;liga&quot; 0, &quot;calt&quot; 0; line-height: 19px; letter-spacing: 0px; width: 636px; height: 976px;"><div style="top:80px;height:19px;" class="view-line"><span><span class="mtk8">import</span><span class="mtk1">&nbsp;</span><span class="mtk9">{</span><span class="mtk1">useRef</span><span class="mtk9">,</span><span class="mtk1">&nbsp;useEffect</span><span class="mtk9">}</span><span class="mtk1">&nbsp;</span><span class="mtk8">from</span><span class="mtk1">&nbsp;</span><span class="mtk5">'react'</span><span class="mtk9">;</span></span></div><div style="top:99px;height:19px;" class="view-line"><span><span class="mtk8">export</span><span class="mtk1">&nbsp;</span><span class="mtk8">function</span><span class="mtk1">&nbsp;useTimeout</span><span class="mtk9">(</span><span class="mtk1">callback</span><span class="mtk9">:</span><span class="mtk1">&nbsp;</span><span class="mtk9">()</span><span class="mtk1">&nbsp;</span><span class="mtk9">=&gt;</span><span class="mtk1">&nbsp;</span><span class="mtk8">void</span><span class="mtk9">,</span><span class="mtk1">&nbsp;delay</span><span class="mtk9">:</span><span class="mtk1">&nbsp;</span><span class="mtk8">number</span><span class="mtk9">)</span><span class="mtk1">&nbsp;</span><span class="mtk9">{</span></span></div><div style="top:118px;height:19px;" class="view-line"><span><span class="mtk1">&nbsp;&nbsp;</span><span class="mtk7">//&nbsp;your&nbsp;code&nbsp;here</span></span></div><div style="top: 289px; height: 19px;" class="view-line"><span><span class="mtk9">}</span></span></div><div style="top: 308px; height: 19px;" class="view-line"><span><span></span></span></div><div style="top: 327px; height: 19px;" class="view-line"><span><span class="mtk7">//&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;try&nbsp;your&nbsp;code&nbsp;on&nbsp;the&nbsp;right&nbsp;panel</span></span></div><div style="top: 346px; height: 19px;" class="view-line"><span><span class="mtk7">//&nbsp;remember&nbsp;to&nbsp;export&nbsp;App()&nbsp;component&nbsp;like&nbsp;below</span></span></div><div style="top: 365px; height: 19px;" class="view-line"><span><span></span></span></div><div style="top: 384px; height: 19px;" class="view-line"><span><span class="mtk7">//&nbsp;export&nbsp;function&nbsp;App()&nbsp;{</span></span></div><div style="top: 403px; height: 19px;" class="view-line"><span><span class="mtk7">//&nbsp;&nbsp;&nbsp;return&nbsp;&lt;div&gt;your&nbsp;app&lt;/div&gt;</span></span></div><div style="top: 422px; height: 19px;" class="view-line"><span><span class="mtk7">//&nbsp;}</span></span></div><div style="top: 441px; height: 19px;" class="view-line"><span><span></span></span></div><div style="top:137px;height:19px;" class="view-line"><span><span class="mtk1">&nbsp;&nbsp;</span><span class="mtk8">const</span><span class="mtk1">&nbsp;callbackRef&nbsp;</span><span class="mtk9">=</span><span class="mtk1">&nbsp;&nbsp;useRef</span><span class="mtk9">(</span><span class="mtk1">callback</span><span class="mtk9">);</span></span></div><div style="top:156px;height:19px;" class="view-line"><span><span class="mtk1">&nbsp;&nbsp;callbackRef</span><span class="mtk9">.</span><span class="mtk1">current&nbsp;</span><span class="mtk9">=</span><span class="mtk1">&nbsp;callback</span><span class="mtk9">;</span></span></div><div style="top:175px;height:19px;" class="view-line"><span><span></span></span></div><div style="top:194px;height:19px;" class="view-line"><span><span class="mtk1">&nbsp;&nbsp;useEffect</span><span class="mtk9">(()</span><span class="mtk1">&nbsp;</span><span class="mtk9">=&gt;</span><span class="mtk1">&nbsp;</span><span class="mtk9">{</span></span></div><div style="top:213px;height:19px;" class="view-line"><span><span class="mtk1">&nbsp;&nbsp;&nbsp;</span><span class="mtk8">const</span><span class="mtk1">&nbsp;id&nbsp;</span><span class="mtk9">=</span><span class="mtk1">&nbsp;setTimeout</span><span class="mtk9">(()</span><span class="mtk1">&nbsp;</span><span class="mtk9">=&gt;</span><span class="mtk1">&nbsp;&nbsp;callbackRef</span><span class="mtk9">.</span><span class="mtk1">current</span><span class="mtk9">(),</span><span class="mtk1">&nbsp;delay</span><span class="mtk9">);</span></span></div><div style="top: 270px; height: 19px;" class="view-line"><span><span class="mtk1">&nbsp;&nbsp;</span><span class="mtk9">},[</span><span class="mtk1">delay</span><span class="mtk9">])</span></span></div><div style="top:232px;height:19px;" class="view-line"><span><span></span></span></div><div style="top:251px;height:19px;" class="view-line"><span><span class="mtk1">&nbsp;&nbsp;&nbsp;</span><span class="mtk8">return</span><span class="mtk1">&nbsp;</span><span class="mtk9">()</span><span class="mtk1">&nbsp;</span><span class="mtk9">=&gt;</span><span class="mtk1">&nbsp;clearTimeout</span><span class="mtk9">(</span><span class="mtk1">id</span><span class="mtk9">);</span></span></div></div><div data-mprt="1" class="contentWidgets" style="position: absolute; top: 0px;"><div class="codicon-light-bulb codicon" widgetid="LightBulbWidget" title="Show Code Actions (Ctrl+.)" style="position: absolute; display: none; visibility: hidden; max-width: 636px; top: 99px; left: 0px;"></div></div><div role="presentation" aria-hidden="true" class="cursors-layer cursor-line-style cursor-solid"><div class="cursor monaco-mouse-cursor-text " style="height: 19px; top: 251px; left: 253px; font-family: Consolas, &quot;Courier New&quot;, monospace; font-weight: normal; font-size: 14px; font-feature-settings: &quot;liga&quot; 0, &quot;calt&quot; 0; line-height: 19px; letter-spacing: 0px; display: block; visibility: hidden; width: 2px;"></div></div></div><div role="presentation" aria-hidden="true" class="invisible scrollbar horizontal" style="position: absolute; width: 622px; height: 12px; left: 0px; bottom: 0px;"><div class="slider" style="position: absolute; top: 0px; left: 0px; height: 12px; transform: translate3d(0px, 0px, 0px); contain: strict; width: 622px;"></div></div><canvas class="decorationsOverviewRuler" aria-hidden="true" width="14" height="459" style="position: absolute; transform: translate3d(0px, 0px, 0px); contain: strict; top: 0px; right: 0px; width: 14px; height: 459px; display: block;"></canvas><div role="presentation" aria-hidden="true" class="invisible scrollbar vertical fade" style="position: absolute; width: 14px; height: 459px; right: 0px; top: 0px;"><div class="slider" style="position: absolute; top: 0px; left: 0px; width: 14px; transform: translate3d(0px, 0px, 0px); contain: strict; height: 215px;"></div></div></div><div role="presentation" aria-hidden="true" style="width: 700px;"></div><textarea data-mprt="6" class="inputarea monaco-mouse-cursor-text" wrap="off" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="Editor content;Press Alt+F1 for Accessibility Options." tabindex="0" role="textbox" aria-roledescription="editor" aria-multiline="true" aria-haspopup="false" aria-autocomplete="both" style="font-family: Consolas, &quot;Courier New&quot;, monospace; font-weight: normal; font-size: 14px; font-feature-settings: &quot;liga&quot; 0, &quot;calt&quot; 0; line-height: 19px; letter-spacing: 0px; top: 251px; left: 318px; width: 1px; height: 1px;"></textarea><div style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px;" class="monaco-editor-background textAreaCover line-numbers"></div><div data-mprt="4" class="overlayWidgets" style="width: 700px;"><div class="accessibilityHelpWidget" role="dialog" aria-hidden="true" widgetid="editor.contrib.accessibilityHelpWidget" style="display: none; position: absolute;"><div role="document"></div></div><div widgetid="editor.contrib.quickInputWidget" style="position: absolute; top: 0px; right: 50%;"></div></div><div data-mprt="8" class="minimap slider-mouseover" role="presentation" aria-hidden="true" style="position: absolute; left: 0px; width: 0px; height: 459px;"><div class="minimap-shadow-hidden" style="height: 459px;"></div><canvas width="0" height="459" style="position: absolute; left: 0px; width: 0px; height: 459px;"></canvas><canvas class="minimap-decorations-layer" width="0" height="459" style="position: absolute; left: 0px; width: 0px; height: 459px;"></canvas><div class="minimap-slider" style="position: absolute; transform: translate3d(0px, 0px, 0px); contain: strict; width: 0px;"><div class="minimap-slider-horizontal" style="position: absolute; width: 0px; height: 0px;"></div></div></div></div><div data-mprt="2" class="overflowingContentWidgets"><div class="monaco-editor rename-box" widgetid="__renameInputWidget" style="background-color: rgb(37, 37, 38); box-shadow: rgba(0, 0, 0, 0.36) 0px 0px 8px 2px; color: rgb(204, 204, 204); position: absolute; display: none; visibility: hidden; max-width: 1600px;"><input class="rename-input" type="text" aria-label="Rename input. Type new name and press Enter to commit." style="font-family: Consolas, &quot;Courier New&quot;, monospace; font-weight: normal; font-size: 14px; background-color: rgb(60, 60, 60); border-width: 0px; border-style: none;"><div class="rename-label" style="font-size: 11.2px;">Enter to Rename, Shift+Enter to Preview</div></div><div class="monaco-hover hidden" tabindex="0" role="tooltip" widgetid="editor.contrib.contentHoverWidget" style="position: absolute; display: none; visibility: hidden; max-width: 1600px;"><div class="monaco-scrollable-element " role="presentation" style="position: relative; overflow: hidden;"><div class="monaco-hover-content" style="overflow: hidden; font-size: 14px; line-height: 1.35714; max-height: 250px; max-width: 500px;"></div><div role="presentation" aria-hidden="true" class="invisible scrollbar horizontal" style="position: absolute;"><div class="slider" style="position: absolute; top: 0px; left: 0px; height: 10px; transform: translate3d(0px, 0px, 0px); contain: strict;"></div></div><div role="presentation" aria-hidden="true" class="invisible scrollbar vertical" style="position: absolute;"><div class="slider" style="position: absolute; top: 0px; left: 0px; width: 10px; transform: translate3d(0px, 0px, 0px); contain: strict;"></div></div><div class="shadow"></div><div class="shadow"></div><div class="shadow"></div></div></div><div class="editor-widget suggest-widget" widgetid="editor.widget.suggestWidget" style="position: absolute; display: none; visibility: hidden; max-width: 1600px; height: 230px; width: 430px; top: 270px; left: 303px;"><div class="monaco-sash vertical" style="left: 428px;"></div><div class="monaco-sash vertical disabled" style="left: -2px;"></div><div class="monaco-sash orthogonal-edge-north horizontal disabled" style="top: -2px;"><div class="orthogonal-drag-handle end"></div></div><div class="monaco-sash orthogonal-edge-south horizontal" style="top: 228px;"><div class="orthogonal-drag-handle end"></div></div><div class="message" aria-hidden="true" style="display: none;"></div><div class="tree" style="height: 230px; display: none;" aria-hidden="true"><div class="monaco-list list_id_1 selection-none" tabindex="0" role="listbox" aria-label="Suggest"><div class="monaco-scrollable-element " role="presentation" style="position: relative; overflow: hidden;"><div class="monaco-list-rows" style="transform: translate3d(0px, 0px, 0px); overflow: hidden; height: 0px; left: 0px; top: 0px;"></div><div role="presentation" aria-hidden="true" class="invisible scrollbar horizontal" style="position: absolute; width: 0px; height: 10px; left: 0px; bottom: 0px;"><div class="slider" style="position: absolute; top: 0px; left: 0px; height: 10px; transform: translate3d(0px, 0px, 0px); contain: strict; width: 0px;"></div></div><div role="presentation" aria-hidden="true" class="invisible scrollbar vertical" style="position: absolute; width: 10px; height: 230px; right: 0px; top: 0px;"><div class="slider" style="position: absolute; top: 0px; left: 0px; width: 10px; transform: translate3d(0px, 0px, 0px); contain: strict; height: 230px;"></div></div></div><style type="text/css" media="screen">.monaco-list.list_id_1:focus .monaco-list-row.selected { background-color: #04395e; }
+.monaco-list.list_id_1:focus .monaco-list-row.selected:hover { background-color: #04395e; }
+.monaco-list.list_id_1:focus .monaco-list-row.selected { color: #ffffff; }
+
+				.monaco-drag-image,
+				.monaco-list.list_id_1:focus .monaco-list-row.selected.focused { background-color: #04395e; }
+			
+
+				.monaco-drag-image,
+				.monaco-list.list_id_1:focus .monaco-list-row.selected.focused { color: #ffffff; }
+			
+.monaco-list.list_id_1 .monaco-list-row.focused { background-color:  #04395e; }
+.monaco-list.list_id_1 .monaco-list-row.focused:hover { background-color:  #04395e; }
+.monaco-list.list_id_1 .monaco-list-row.selected { background-color:  #37373d; }
+.monaco-list.list_id_1 .monaco-list-row.selected:hover { background-color:  #37373d; }
+.monaco-list.list_id_1:not(.drop-target) .monaco-list-row:hover:not(.selected):not(.focused) { background-color: #2a2d2e; }
+
+				.monaco-drag-image,
+				.monaco-list.list_id_1:focus .monaco-list-row.focused { outline: 1px solid #007fd4; outline-offset: -1px; }
+				.monaco-workbench.context-menu-visible .monaco-list.list_id_1.last-focused .monaco-list-row.focused { outline: 1px solid #007fd4; outline-offset: -1px; }
+			
+
+				.monaco-list.list_id_1.drop-target,
+				.monaco-list.list_id_1 .monaco-list-rows.drop-target,
+				.monaco-list.list_id_1 .monaco-list-row.drop-target { background-color: #062f4a !important; color: inherit !important; }
+			
+
+				.monaco-table:hover > .monaco-split-view2,
+				.monaco-table:hover > .monaco-split-view2 .monaco-sash.vertical::before {
+					border-color: rgba(204, 204, 204, 0.13);
+			}
+
+				.monaco-table .monaco-list-row[data-parity=odd]:not(.focused):not(.selected):not(:hover) .monaco-table-tr,
+				.monaco-table .monaco-list:not(:focus) .monaco-list-row[data-parity=odd].focused:not(.selected):not(:hover) .monaco-table-tr,
+				.monaco-table .monaco-list:not(.focused) .monaco-list-row[data-parity=odd].focused:not(.selected):not(:hover) .monaco-table-tr {
+					background-color: rgba(204, 204, 204, 0.04);
+				}
+			</style></div></div><div class="suggest-status-bar" style="line-height: 19px; display: none;" aria-hidden="true"><div class="monaco-action-bar animated left"><ul class="actions-container" role="presentation"><li class="action-item menu-entry" role="presentation" aria-label="Insert (Enter)" title="Insert (Enter)"><a class="action-label" role="button" tabindex="0">Insert (⏎)</a></li></ul></div><div class="monaco-action-bar animated right"><ul class="actions-container" role="presentation"><li class="action-item menu-entry" role="presentation" aria-label="show more (Ctrl+Space)" title="show more (Ctrl+Space)"><a class="action-label" role="button" tabindex="0">show more (Ctrl+Space)</a></li></ul></div></div></div><div class="editor-widget parameter-hints-widget" widgetid="editor.widget.parameterHintsWidget" style="user-select: text; position: absolute; display: none; visibility: hidden; max-width: 1600px; font-size: 14px; line-height: 1.35714; max-height: 250px; top: 222px; left: 310px;"><div class="phwrapper" tabindex="-1" style="max-height: 250px;"><div class="controls"><div class="button codicon codicon-parameter-hints-previous"></div><div class="overloads">1/1</div><div class="button codicon codicon-parameter-hints-next"></div></div><div class="monaco-scrollable-element " role="presentation" style="position: relative; overflow: hidden;"><div class="body" style="overflow: hidden;"><div class="signature"><div class="code" style="font-size: 14px; font-family: Consolas, &quot;Courier New&quot;, monospace;"><span>clearTimeout(</span><span class="parameter active">handle?: number | undefined</span><span>): void</span></div></div><div class="docs empty"><p><span class="documentation"><div class="markdown-docs"></div></span></p><div class="markdown-docs"></div></div></div><div role="presentation" aria-hidden="true" class="invisible scrollbar horizontal" style="position: absolute; width: 362px; height: 10px; left: 0px; bottom: 0px;"><div class="slider" style="position: absolute; top: 0px; left: 0px; height: 10px; transform: translate3d(0px, 0px, 0px); contain: strict; width: 362px;"></div></div><div role="presentation" aria-hidden="true" class="invisible scrollbar vertical" style="position: absolute; width: 10px; height: 27px; right: 0px; top: 0px;"><div class="slider" style="position: absolute; top: 0px; left: 0px; width: 10px; transform: translate3d(0px, 0px, 0px); contain: strict; height: 27px;"></div></div><div class="shadow"></div><div class="shadow"></div><div class="shadow"></div></div></div></div></div></div></div></div><div class="permalink__JudgeFooter-sc-7lrru3-14 hoYaei"><div class="permalink__JudgeFooterHead-sc-7lrru3-16 hSReMk"><div class="permalink__JudgeFooterHeadLeft-sc-7lrru3-17 kULlLb"><button class="UI__ButtonRun-sc-hjyhbh-1 eDZYaC" disabled=""><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>&nbsp;<!-- -->submit</button></div><div class="permalink__JudgeFooterHeadRight-sc-7lrru3-18 kTwpoq"><button size="25" class="IconButton__InternalIconButton-sc-1v5qwsf-0 leBblc"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="15" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path><path d="M464 336a48 48 0 1 0 96 0 48 48 0 1 0-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path></svg></button><button size="25" class="IconButton__InternalIconButton-sc-1v5qwsf-0 leBblc"><svg stroke="currentColor" fill="currentColor" stroke-width="0" version="1.1" viewBox="0 0 16 16" height="10" width="10" xmlns="http://www.w3.org/2000/svg"><path d="M16 0v6.5l-2.5-2.5-3 3-1.5-1.5 3-3-2.5-2.5zM7 10.5l-3 3 2.5 2.5h-6.5v-6.5l2.5 2.5 3-3z"></path></svg></button></div></div><div class="permalink__Logs-sc-7lrru3-15 bsaHPk"><div color="var(--color-text-sub)" class="Loading__Outer-sc-1fmbrzm-0 doTgcy"><svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke="currentcolor"><g fill="none" fill-rule="evenodd" stroke-width="2"><circle cx="22" cy="22" r="1"><animate attributeName="r" begin="0s" dur="1.8s" values="1; 20" calcMode="spline" keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite"></animate><animate attributeName="stroke-opacity" begin="0s" dur="1.8s" values="1; 0" calcMode="spline" keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite"></animate></circle><circle cx="22" cy="22" r="1"><animate attributeName="r" begin="-0.9s" dur="1.8s" values="1; 20" calcMode="spline" keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite"></animate><animate attributeName="stroke-opacity" begin="-0.9s" dur="1.8s" values="1; 0" calcMode="spline" keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite"></animate></circle></g></svg></div></div></div></div><div style="width:300px" class="permalink__LivePreview-sc-7lrru3-8 iIQumm"><div class="MinimizeButton__SeparatorDragHandle-sc-1cznjwm-0 kLacbR"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 16V12L21 17L16 22V18H4V16H16ZM8 2V5.999L20 6V8H8V12L3 7L8 2Z"></path></svg></div><div class="permalink__LivePreviewHeader-sc-7lrru3-0 fuxdPU"><p class="permalink__LivePreviewHeaderTitle-sc-7lrru3-1 cAgBTD">Try it out</p><button size="35" class="IconButton__InternalIconButton-sc-1v5qwsf-0 hRSrJH" disabled=""><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M128 104.3v303.4c0 6.4 6.5 10.4 11.7 7.2l240.5-151.7c5.1-3.2 5.1-11.1 0-14.3L139.7 97.2c-5.2-3.3-11.7.7-11.7 7.1z"></path></svg></button><button size="35" class="IconButton__InternalIconButton-sc-1v5qwsf-0 inkLnp"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M256 388c-72.597 0-132-59.405-132-132 0-72.601 59.403-132 132-132 36.3 0 69.299 15.4 92.406 39.601L278 234h154V80l-51.698 51.702C348.406 99.798 304.406 80 256 80c-96.797 0-176 79.203-176 176s78.094 176 176 176c81.045 0 148.287-54.134 169.401-128H378.85c-18.745 49.561-67.138 84-122.85 84z"></path></svg></button></div><div class="permalink__LivePreviewBody-sc-7lrru3-2 dOxCHt"><iframe sandbox="allow-scripts" src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/saved_resource.html"></iframe></div><div class="permalink__LivePreviewConsole-sc-7lrru3-3 uasPf"><div class="permalink__LivePreviewConsoleHeader-sc-7lrru3-5 jZsbrn"><p class="permalink__LivePreviewConsoleHeaderTitle-sc-7lrru3-6 fcltNT">Console</p><div class="permalink__LivePreviewConsoleHeaderActions-sc-7lrru3-7 koKmlf"><div class="Row-sc-4c0e12-0 gQDMQB"><input type="checkbox" id="clear-on-reload" checked=""><label for="clear-on-reload">clear on reload</label></div><button size="17" class="IconButton__InternalIconButton-sc-1v5qwsf-0 fBzRVO"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="12" width="12" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-width="2" d="M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M5,5 L19,19"></path></svg></button><button size="17" class="IconButton__InternalIconButton-sc-1v5qwsf-0 fBzRVO"><svg stroke="currentColor" fill="currentColor" stroke-width="0" version="1.1" viewBox="0 0 16 16" height="10" width="10" xmlns="http://www.w3.org/2000/svg"><path d="M16 0v6.5l-2.5-2.5-3 3-1.5-1.5 3-3-2.5-2.5zM7 10.5l-3 3 2.5 2.5h-6.5v-6.5l2.5 2.5 3-3z"></path></svg></button></div></div><div class="permalink__LivePreviewConsoleBody-sc-7lrru3-4 hoZdUE"><div class="permalink__Logs-sc-7lrru3-15 bsaHPk"></div></div></div></div></main><div class="UI__Hooray-sc-hjyhbh-3 pOUCC"><div style="position:relative"></div></div></div><div class="_app__TooltipUI-sc-f6gnrp-3 lgtlBI">Solution</div><div class="_app__ToastsContainer-sc-f6gnrp-0 gpqEyT"></div></div><div id="modal-root"></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"item":{"id":2,"createdAt":1646907930,"updatedAt":1645979036,"permalink":"usetimeout","skeleton":"\nfunction sum(a, b) {\n}","timer":600,"status":1,"preInject":"","ogpImg":"https://cdn.bfe.dev/bfe/img/OvJaiJpVSGydOUnEdXNz6CnoIo6sQDYS_1200x630_1646907596904.png","source":"","editConfig":{"v":0,"files":[{"type":"script","supportedLangs":{"typescript":{"default":true,"skeletonEn":"\nexport function useTimeout(callback: () =\u003e void, delay: number) {\n  // your code here\n}\n\n// if you want to try your code on the right panel\n// remember to export App() component like below\n\n// export function App() {\n//   return \u003cdiv\u003eyour app\u003c/div\u003e\n// }\n\n\n\n\n"}}}]},"allowedModules":"react@17.0.2,react-dom@17.0.2","title":"2. useTimeout()","desc":"\u003cp\u003eCreate a hook to easily use \u003ccode\u003esetTimeout(callback, delay)\u003c/code\u003e. \u003c/p\u003e\n\u003col\u003e\n\u003cli\u003ereset the timer if delay changes\u003c/li\u003e\n\u003cli\u003eDO NOT reset the timer if only callback changes\u003c/li\u003e\n\u003c/ol\u003e\n","tags":"React Hooks","difficulty":"medium","prev":{"permalink":"The-React-Counter","title":"1. the React Counter app"},"next":{"permalink":"useIsFirstRender","title":"3. useIsFirstRender()"},"description":"Create a hook to easily use setTimeout(callback, delay). 1. reset the timer if delay changes 2. DO NOT reset the timer if only callback changes…","postCount":109,"videoCount":2,"hasSolution":{"en":false,"ja":false,"zh":false},"companies":[],"ogpGenImg":"https://cdn.bfe.dev/bfe/ogpgen/gqDx7hCdQzuRjO4QdUVyDsaOhPJb3B7R_1200x627_1671419923911.png","lists":[]}},"__N_SSP":true},"page":"/react/[permalink]","query":{"permalink":"usetimeout"},"buildId":"2UbJIs9kjfEG5EF0FO2kd","isFallback":false,"gssp":true,"customServer":true,"scriptLoader":[]}</script><script>
+              (function(){
+                if(typeof _bsa !== 'undefined' && _bsa) {
+                  _bsa.init('stickybox', 'CWYICKJJ', 'placement:bigfrontenddev');
+                }
+              })();
+              </script><script defer="" src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;rayId&quot;:&quot;899f12164aff9c6b&quot;,&quot;r&quot;:1,&quot;version&quot;:&quot;2024.4.1&quot;,&quot;token&quot;:&quot;b61bb00345f64fd0a06d60b8f5f6a03b&quot;}" crossorigin="anonymous"></script>
+<next-route-announcer><p aria-live="assertive" id="__next-route-announcer__" role="alert" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap; overflow-wrap: normal;"></p></next-route-announcer><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/index-470e71605f16a319.js.download"></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/b55cbb4c-8052c5a34455d4d0.js.download"></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/7062-20ec4f4ca82ef5d0.js.download"></script><script src="./2. useTimeout() _ BFE.dev - prepare for Front-End job interviews._files/react-a979f55e635d6ea6.js.download"></script><object id="__symantecPKIClientMessenger" data-supports-flavor-configuration="true" data-extension-version="0.5.0.109" style="display: none;"></object><span id="__symantecPKIClientDetector" style="display: none;">__PRESENT</span><div class="monaco-aria-container"><div class="monaco-alert" role="alert" aria-atomic="true" style="visibility: visible;">handle?: number | undefined, , , hint</div><div class="monaco-alert" role="alert" aria-atomic="true"></div><div class="monaco-status" role="complementary" aria-live="polite" aria-atomic="true"></div><div class="monaco-status" role="complementary" aria-live="polite" aria-atomic="true"></div></div></body></html>

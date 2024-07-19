@@ -1,0 +1,22 @@
+.container{
+    // display: inline-block;
+    width: 205px;
+    height: 205px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background-color: white;
+    margin: auto;
+}
+
+.container::before{
+    display: block;
+    // position: relative;
+    content: '';
+    left: 10px;
+    top: 10px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    // border: 1px solid #000;
+    background-color: yellow;
+}
